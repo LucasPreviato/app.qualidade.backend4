@@ -1,0 +1,47 @@
+
+
+version: "3.9"  # optional since v1.27.0
+services:
+  database:
+    image: postgres:latest
+    container_name: nest_db
+    hostname: nest_db
+    ports:
+      - "5432:5432"
+    environment:
+       POSTGRES_USER: suntech
+       POSTGRES_PASSWORD: suntech@nk5@alp
+       POSTGRES_DB: qualilab
+    volumes:
+      - database-data:/var/lib/postgressql/data
+    restart: unless-stopped
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - database
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
+
+  prisma-api:
+    stdin_open: true
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: "nest_api"
+    depends_on:
+      - database
+    ports:
+      - "3333:3333"
+    restart: always
+    volumes:
+      - ./:/home/api
+volumes:
+  database-data:
+  pgadmin-data:
