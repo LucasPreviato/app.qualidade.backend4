@@ -4,8 +4,8 @@ import { UpdateUnitInput } from './dto/update-unit.input';
 
 @Injectable()
 export class UnitsService {
-  create(createUnitInput: CreateUnitInput) {
-    return 'This action adds a new unit';
+  create({ name, email, phone }: CreateUnitInput) {
+    return console.log({ name, email, phone });
   }
 
   findAll() {
