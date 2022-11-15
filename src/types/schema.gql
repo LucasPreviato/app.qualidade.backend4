@@ -1,0 +1,57 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  """Example field (placeholder)"""
+  id: Int!
+}
+
+input CreateAddressInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUnitInput {
+  address: CreateAddressInput
+  email: String
+  name: String!
+  phone: String
+}
+
+type Mutation {
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  createUnit(createUnitInput: CreateUnitInput!): Unit!
+  removeAddress(id: Int!): Address!
+  removeUnit(id: Int!): Unit!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
+}
+
+type Query {
+  address(id: Int!): Address!
+  addresses: [Address!]!
+  unit(id: Int!): Unit!
+  units: [Unit!]!
+}
+
+type Unit {
+  email: String
+  id: Int!
+  name: String!
+  phone: String
+}
+
+input UpdateAddressInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUnitInput {
+  address: CreateAddressInput
+  email: String
+  id: Int!
+  name: String
+  phone: String
+}
