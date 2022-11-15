@@ -7,8 +7,6 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UnitsModule } from './units/units.module';
 import { AppController } from './app.controller';
-import { AddressesModule } from './addresses/addresses.module';
-import { UnitsModule } from './units/units.module';
 
 @Module({
   imports: [
@@ -21,7 +19,6 @@ import { UnitsModule } from './units/units.module';
     }),
     UnitsModule,
     PrismaModule,
-    AddressesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
