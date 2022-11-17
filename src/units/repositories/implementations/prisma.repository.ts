@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUnitInput } from 'src/units/dto/create-unit.input';
+import { UpdateUnitInput } from 'src/units/dto/update-unit.input';
 import { Unit } from 'src/units/entities/unit.entity';
-import { IUnitsRepository } from './units.repository';
+import { IUnitsRepository } from '../units.repository';
 
 @Injectable()
 export class PrismaUnitsRepository implements IUnitsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
     const unit = await this.prisma.unit.create({
@@ -31,10 +32,10 @@ export class PrismaUnitsRepository implements IUnitsRepository {
     return unit;
   }
 
-  async update(id: number, UpdateUnitInput): Promise<Unit> {
+  async update(id: number, updateUnitInput: UpdateUnitInput): Promise<Unit> {
     return this.prisma.unit.update({
       where: { id },
-      data: UpdateUnitInput,
+      data: updateUnitInput,
     });
   }
   async remove(id: number): Promise<void> {

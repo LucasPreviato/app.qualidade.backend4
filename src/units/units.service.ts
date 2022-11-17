@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUnitInput } from './dto/create-unit.input';
 import { UpdateUnitInput } from './dto/update-unit.input';
+import { Unit } from './entities/unit.entity';
+import { PrismaUnitsRepository } from './repositories/implementations/prisma.repository';
 
 @Injectable()
 export class UnitsService {
-  create({ name, email, phone }: CreateUnitInput) {
-    return console.log({ name, email, phone });
+  constructor(private UnitsRepository: PrismaUnitsRepository) {}
+  async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
+    {
+      const unit = await this.UnitsRepository.create({ name, email, phone });
+      return unit;
+    }
+  }
+  async findAll(): Promise<Unit[]> {
+    const units = await this.UnitsRepository.findAll();
+    return units;
   }
 
-  findAll() {
-    return `This action returns all units`;
+  async findOne(id: number): Promise<Unit | null> {
+    const unit = await this.UnitsRepository.findOne(id);
+    return unit;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} unit`;
+  async update(id: number, updateUnitInput: UpdateUnitInput): Promise<Unit> {
+    const unit = this.UnitsRepository.update(id, updateUnitInput);
+    return unit;
   }
 
-  update(id: number, updateUnitInput: UpdateUnitInput) {
-    return `This action updates a #${id} unit`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} unit`;
+  async remove(id: number): Promise<void> {
+    await this.UnitsRepository.remove(id);
   }
 }
