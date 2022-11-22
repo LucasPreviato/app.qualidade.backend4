@@ -6,29 +6,31 @@ import { PrismaUnitsRepository } from './repositories/implementations/prisma.rep
 
 @Injectable()
 export class UnitsService {
-  constructor(private unitsRepository: PrismaUnitsRepository) {}
+  constructor(private UnitsRepository: PrismaUnitsRepository) {}
+  
   async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
-    {
-      const unit = await this.unitsRepository.create({ name, email, phone });
+      const unit = await this.UnitsRepository.create({ name, email, phone });
       return unit;
-    }
   }
+  
   async findAll(): Promise<Unit[]> {
-    const units = await this.unitsRepository.findAll();
+  
+    const units = await this.UnitsRepository.findAll();
     return units;
+    
   }
 
   async findOne(id: number): Promise<Unit | null> {
-    const unit = await this.unitsRepository.findOne(id);
+    const unit = await this.UnitsRepository.findOne(id);
     return unit;
   }
 
   async update(id: number, updateUnitInput: UpdateUnitInput): Promise<Unit> {
-    const unit = this.unitsRepository.update(id, updateUnitInput);
+    const unit = this.UnitsRepository.update(id, updateUnitInput);
     return unit;
   }
 
   async remove(id: number): Promise<void> {
-    await this.unitsRepository.remove(id);
+    await this.UnitsRepository.remove(id);
   }
 }
