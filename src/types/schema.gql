@@ -34,8 +34,6 @@ type Mutation {
 }
 
 type Query {
-  address(id: Int!): Address!
-  addresses: [Address!]!
   unit(id: Int!): Unit!
   units: [Unit!]!
 }
@@ -45,7 +43,7 @@ type Unit {
   id: Int!
   name: String!
   phone: String
-}
+} 
 
 input UpdateAddressInput {
   """Example field (placeholder)"""
