@@ -7,15 +7,17 @@ import { PrismaUnitsRepository } from './repositories/implementations/prisma.rep
 @Injectable()
 export class UnitsService {
   constructor(private UnitsRepository: PrismaUnitsRepository) {}
+  
   async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
-    {
       const unit = await this.UnitsRepository.create({ name, email, phone });
       return unit;
-    }
   }
+  
   async findAll(): Promise<Unit[]> {
+  
     const units = await this.UnitsRepository.findAll();
     return units;
+    
   }
 
   async findOne(id: number): Promise<Unit | null> {

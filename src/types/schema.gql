@@ -2,6 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+
 type Address {
   cep: String
   city: String
@@ -18,6 +19,7 @@ input CreateAddressInput {
   exampleField: Int!
 }
 
+
 input CreateUnitInput {
   email: String
   name: String!
@@ -25,6 +27,9 @@ input CreateUnitInput {
 }
 
 type Mutation {
+
+  createUnit(createUnitInput: CreateUnitInput!): Unit!
+  removeUnit(id: Int!): Unit!
   createAddress(createAddressInput: CreateAddressInput!): Address!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeAddress(id: Int!): Address!
