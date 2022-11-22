@@ -2,27 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Address {
-  cep: String
-  city: String
-  complement: String
-  district: String
-  id: Int!
-  number: String
-  street: String
-  uf: String
-}
-
-input CreateAddressInput {
-  cep: String
-  city: String
-  complement: String
-  district: String
-  number: String
-  street: String
-  uf: String
-}
-
 input CreateUnitInput {
   email: String
   name: String!
@@ -30,17 +9,12 @@ input CreateUnitInput {
 }
 
 type Mutation {
-  createAddress(createAddressInput: CreateAddressInput!): Address!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
-  removeAddress(id: Int!): Address!
   removeUnit(id: Int!): Unit!
-  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
 }
 
 type Query {
-  address(id: Int!): Address!
-  addresses: [Address!]!
   unit(id: Int!): Unit!
   units: [Unit!]!
 }
@@ -50,17 +24,6 @@ type Unit {
   id: Int!
   name: String!
   phone: String
-}
-
-input UpdateAddressInput {
-  cep: String
-  city: String
-  complement: String
-  district: String
-  id: Int!
-  number: String
-  street: String
-  uf: String
 }
 
 input UpdateUnitInput {
