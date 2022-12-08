@@ -9,27 +9,27 @@ export class UnitsResolver {
   constructor(private readonly unitsService: UnitsService) {}
 
   @Mutation(() => Unit)
-  createUnit(@Args('createUnitInput') createUnitInput: CreateUnitInput) {
-    return this.unitsService.create(createUnitInput);
+  async createUnit(@Args('createUnitInput') createUnitInput: CreateUnitInput) {
+    return await this.unitsService.create(createUnitInput);
   }
 
   @Query(() => [Unit], { name: 'units' })
-  findAll() {
-    return this.unitsService.findAll();
+  async findAll() {
+    return await this.unitsService.findAll();
   }
 
   @Query(() => Unit, { name: 'unit' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.unitsService.findOne(id);
+  async findOne(@Args('id', { type: () => Int }) id: number) {
+    return await this.unitsService.findOne(id);
   }
 
   @Mutation(() => Unit)
-  updateUnit(@Args('updateUnitInput') updateUnitInput: UpdateUnitInput) {
-    return this.unitsService.update(updateUnitInput.id, updateUnitInput);
+  async updateUnit(@Args('updateUnitInput') updateUnitInput: UpdateUnitInput) {
+    return await this.unitsService.update(updateUnitInput.id, updateUnitInput);
   }
 
   @Mutation(() => Unit)
-  removeUnit(@Args('id', { type: () => Int }) id: number) {
-    return this.unitsService.remove(id);
+  async removeUnit(@Args('id', { type: () => Int }) id: number) {
+    return await this.unitsService.remove(id);
   }
 }

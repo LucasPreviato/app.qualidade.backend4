@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateDepartmentInput {
+  email: String
+  initials: String
+  name: String!
+  unitId: Int
+}
+
+input CreateUnitInput {
+  email: String
+  name: String!
+  phone: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Department {
+  createdAt: DateTime!
+  email: String
+  id: Int!
+  initials: String
+  name: String!
+  unit: Unit!
+}
+
+type Mutation {
+  createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  createUnit(createUnitInput: CreateUnitInput!): Unit!
+  removeDepartment(id: Int!): Department!
+  removeUnit(id: Int!): Unit!
+  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
+  updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
+}
+
+type Query {
+  department(id: Int!): Department!
+  departments: [Department!]!
+  unit(id: Int!): Unit!
+  units: [Unit!]!
+}
+
+type Unit {
+  departments: [Department!]!
+  email: String
+  id: Int!
+  name: String!
+  phone: String
+}
+
+input UpdateDepartmentInput {
+  email: String
+  id: Int!
+  initials: String
+  name: String
+  unitId: Int
+}
+
+input UpdateUnitInput {
+  email: String
+  id: Int!
+  name: String
+  phone: String
+}

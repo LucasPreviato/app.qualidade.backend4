@@ -1,36 +1,77 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUnitInput } from './dto/create-unit.input';
 import { UpdateUnitInput } from './dto/update-unit.input';
-import { Unit } from './entities/unit.entity';
-import { PrismaUnitsRepository } from './repositories/implementations/prisma.repository';
 
 @Injectable()
 export class UnitsService {
-  constructor(private UnitsRepository: PrismaUnitsRepository) {}
-  
-  async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
-      const unit = await this.UnitsRepository.create({ name, email, phone });
-      return unit;
-  }
-  
-  async findAll(): Promise<Unit[]> {
-  
-    const units = await this.UnitsRepository.findAll();
-    return units;
-    
+  constructor(private prisma: PrismaService) {}
+
+  async create({ name, email, phone }: CreateUnitInput) {
+    return await this.prisma.unit.create({
+      data: {
+        name,
+        email,
+        phone,
+      },
+
+      include: { departments: true },
+    });
   }
 
-  async findOne(id: number): Promise<Unit | null> {
-    const unit = await this.UnitsRepository.findOne(id);
-    return unit;
+  async findAll() {
+    return await this.prisma.unit.findMany({
+      include: { departments: true },
+    });
   }
 
-  async update(id: number, updateUnitInput: UpdateUnitInput): Promise<Unit> {
-    const unit = this.UnitsRepository.update(id, updateUnitInput);
-    return unit;
+  async findOne(id: number) {
+    return await this.prisma.unit.findUnique({
+      where: {
+        id,
+      },
+
+      include: { departments: true },
+    });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.UnitsRepository.remove(id);
+  async update(id: number, { name, email, phone }: UpdateUnitInput) {
+    return await this.prisma.unit.update({
+      where: {
+        id,
+      },
+
+      data: {
+        name,
+        email,
+        phone,
+      },
+
+      include: { departments: true },
+    });
+  }
+
+  async remove(id: number) {
+    return await this.prisma.unit.delete({
+      where: {
+        id,
+      },
+
+      include: { departments: true },
+    });
+  }
+
+  async resolveGetUnit(id: number) {
+    const department = await this.prisma.department.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return await this.prisma.unit.findUnique({
+      where: {
+        id: department.unitId,
+      },
+    });
   }
 }

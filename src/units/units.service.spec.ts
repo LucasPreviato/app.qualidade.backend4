@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from 'src/prisma/prisma.service';
 import ValidUnit from './common/test/validUnit';
-import { PrismaUnitsRepository } from './repositories/implementations/prisma.repository';
 import { UnitsService } from './units.service';
 
 describe('UnitsService', () => {
@@ -22,7 +21,6 @@ describe('UnitsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UnitsService,
-        PrismaUnitsRepository,
         { provide: PrismaService, useValue: prismaMock },
       ],
     }).compile();
