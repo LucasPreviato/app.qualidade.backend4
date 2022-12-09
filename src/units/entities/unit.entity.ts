@@ -15,6 +15,6 @@ export class Unit {
   @Field(() => String, { nullable: true })
   phone?: string;
 
-  @Field(() => [Department])
-  departments: Department[];
+  @Field(() => [Department], { nullable: true })
+  departments?: Department[];
 }

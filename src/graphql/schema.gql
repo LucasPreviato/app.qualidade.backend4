@@ -46,7 +46,7 @@ type Query {
 }
 
 type Unit {
-  departments: [Department!]!
+  departments: [Department!]
   email: String
   id: Int!
   name: String!
