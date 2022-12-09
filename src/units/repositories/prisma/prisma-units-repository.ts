@@ -10,7 +10,7 @@ export class PrismaUnitsRepository implements UnitsRepository {
   constructor(private prisma: PrismaService) {}
 
   async create({ name, email, phone }: CreateUnitInput): Promise<Unit> {
-    const unit = await this.prisma.unit.create({
+    const newUnit = await this.prisma.unit.create({
       data: {
         name,
         email,
@@ -18,27 +18,29 @@ export class PrismaUnitsRepository implements UnitsRepository {
       },
     });
 
-    return unit;
+    return newUnit;
   }
 
   async findAll() {
-    return await this.prisma.unit.findMany({
+    const units = await this.prisma.unit.findMany({
       include: { departments: true },
     });
+    return units;
   }
 
   async findOne(id: number) {
-    return await this.prisma.unit.findUnique({
+    const unit = await this.prisma.unit.findUnique({
       where: {
         id,
       },
 
       include: { departments: true },
     });
+    return unit;
   }
 
   async update(id: number, { name, email, phone }: UpdateUnitInput) {
-    return await this.prisma.unit.update({
+    const updateUnit = await this.prisma.unit.update({
       where: {
         id,
       },
@@ -51,6 +53,7 @@ export class PrismaUnitsRepository implements UnitsRepository {
 
       include: { departments: true },
     });
+    return updateUnit;
   }
 
   async remove(id: number) {

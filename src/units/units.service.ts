@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { InputNotFoundException } from 'src/errors/input-not-found-exception';
 import { CreateUnitInput } from './dto/create-unit.input';
 import { UpdateUnitInput } from './dto/update-unit.input';
 import { Unit } from './entities/unit.entity';
@@ -21,7 +22,11 @@ export class UnitsService {
   }
 
   async findOne(id: number): Promise<Unit> {
-    return await this.unitsRepository.findOne(id);
+    const unit = await this.unitsRepository.findOne(id);
+    if (!unit) {
+      throw new InputNotFoundException(id);
+    }
+    return unit;
   }
 
   async update(
