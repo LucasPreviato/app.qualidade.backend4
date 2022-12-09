@@ -10,23 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Address {
-  id         Int     @id @default(autoincrement())
-  street     String?
-  number     String?
-  complement String?
-  district   String?
-  city       String?
-  cep        String? @unique
-  uf         String?
-  unit       Unit?   @relation(fields: [unitId], references: [id])
-  unitId     Int?    @unique
+model Unit {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  email String?
+  phone String?
+
+  departments Department[]
 }
 
-model Unit {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  email   String?
-  phone   String?
-  Address Address?
+model Department {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  initials  String?  @unique
+  createdAt DateTime @default(now())
+  email     String?
+
+  unit   Unit? @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId Int?
 }

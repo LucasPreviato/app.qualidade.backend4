@@ -5,9 +5,9 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { join } from 'path';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { UnitsModule } from './units/units.module';
 import { AppController } from './app.controller';
-
+import { DepartmentsModule } from './departments/departments.module';
+import { UnitsModule } from './units/units.module';
 
 @Module({
   imports: [
@@ -15,11 +15,12 @@ import { AppController } from './app.controller';
       driver: ApolloDriver,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      autoSchemaFile: join(process.cwd(), 'src/types/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
       sortSchema: true,
     }),
-    UnitsModule,
     PrismaModule,
+    DepartmentsModule,
+    UnitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

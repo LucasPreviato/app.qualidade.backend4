@@ -2,10 +2,12 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUnitInput {
-  @Field()
+  @Field(() => String)
   name: string;
-  @Field({ nullable: true })
+
+  @Field(() => String, { nullable: true })
   email?: string;
-  @Field({ nullable: true })
+
+  @Field(() => String, { nullable: true })
   phone?: string;
 }
