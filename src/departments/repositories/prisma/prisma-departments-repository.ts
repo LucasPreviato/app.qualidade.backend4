@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { CreateDepartmentInput } from 'src/departments/dto/create-department.input';
 import { UpdateDepartmentInput } from 'src/departments/dto/update-department.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { DepartmentsRepository } from '../departments-repository';
 
+@Injectable()
 export class PrismaDepartmentsRepository implements DepartmentsRepository {
   constructor(private prisma: PrismaService) {}
 
