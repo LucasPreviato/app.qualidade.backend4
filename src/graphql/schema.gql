@@ -26,7 +26,7 @@ type Department {
   id: Int!
   initials: String
   name: String!
-  unit: Unit!
+  unit: ResolveUnit
 }
 
 type Mutation {
@@ -45,8 +45,23 @@ type Query {
   units: [Unit!]!
 }
 
+type ResolveDepartments {
+  createdAt: DateTime!
+  email: String
+  id: Int!
+  initials: String
+  name: String!
+}
+
+type ResolveUnit {
+  email: String
+  id: Int!
+  name: String!
+  phone: String
+}
+
 type Unit {
-  departments: [Department!]
+  departments: [ResolveDepartments!]
   email: String
   id: Int!
   name: String!
