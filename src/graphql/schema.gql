@@ -2,6 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Collaborator {
+  createdAt: DateTime!
+  email: String!
+  hireDate: DateTime!
+  id: Int!
+  name: String!
+  phone: String
+}
+
+input CreateCollaboratorInput {
+  departmentId: Int!
+  email: String!
+  name: String!
+  phone: String
+  unitId: Int!
+}
+
 input CreateDepartmentInput {
   email: String
   initials: String
@@ -30,15 +47,20 @@ type Department {
 }
 
 type Mutation {
+  createCollaborator(createCollaboratorInput: CreateCollaboratorInput!): Collaborator!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
+  removeCollaborator(id: Int!): Collaborator!
   removeDepartment(id: Int!): Department!
   removeUnit(id: Int!): Unit!
+  updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
 }
 
 type Query {
+  collaborator(id: Int!): Collaborator!
+  collaborators: [Collaborator!]!
   department(id: Int!): Department!
   departments: [Department!]!
   unit(id: Int!): Unit!
@@ -66,6 +88,15 @@ type Unit {
   id: Int!
   name: String!
   phone: String
+}
+
+input UpdateCollaboratorInput {
+  departmentId: Int
+  email: String
+  id: Int!
+  name: String
+  phone: String
+  unitId: Int
 }
 
 input UpdateDepartmentInput {

@@ -56,4 +56,8 @@ export class DepartmentsService {
     }
     return await this.departmentsRepository.remove(id);
   }
+
+  async resolveGetDepartment(id: number): Promise<Department> {
+    return await this.departmentsRepository.resolveGetDepartment(id);
+  }
 }

@@ -16,7 +16,8 @@ model Unit {
   email String?
   phone String?
 
-  departments Department[]
+  departments  Department[]
+  Collaborator Collaborator[]
 }
 
 model Department {
@@ -26,6 +27,22 @@ model Department {
   createdAt DateTime @default(now())
   email     String?
 
-  unit   Unit? @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  unitId Int?
+  unit         Unit?          @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId       Int?
+  Collaborator Collaborator[]
+}
+
+model Collaborator {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  hireDate  DateTime @default(now())
+
+  unit   Unit @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId Int
+
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId Int
 }
