@@ -37,6 +37,7 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
 
       include: { unit: true },
     });
+
     return department;
   }
 
