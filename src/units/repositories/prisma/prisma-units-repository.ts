@@ -65,18 +65,4 @@ export class PrismaUnitsRepository implements UnitsRepository {
       include: { departments: true },
     });
   }
-
-  async resolveGetUnit(id: number) {
-    const department = await this.prisma.department.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    return await this.prisma.unit.findUnique({
-      where: {
-        id: department.unitId,
-      },
-    });
-  }
 }

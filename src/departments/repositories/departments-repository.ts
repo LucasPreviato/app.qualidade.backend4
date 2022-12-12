@@ -20,6 +20,4 @@ export abstract class DepartmentsRepository {
   ): Promise<Department>;
 
   abstract remove(id: number): Promise<Department>;
-
-  abstract resolveGetDepartment(id: number): Promise<Department>;
 }

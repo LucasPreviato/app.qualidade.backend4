@@ -39,8 +39,4 @@ export class UnitsService {
   async remove(id: number): Promise<Unit> {
     return await this.unitsRepository.remove(id);
   }
-
-  async resolveGetUnit(id: number): Promise<Unit> {
-    return await this.unitsRepository.resolveGetUnit(id);
-  }
 }

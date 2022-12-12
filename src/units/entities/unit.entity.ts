@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql';
+import { ResolveCollaborators } from 'src/collaborators/entities/collaborator.entity';
 import { ResolveDepartments } from 'src/departments/entities/department.entity';
 
 @ObjectType()
@@ -17,7 +18,13 @@ export class Unit {
 
   @Field(() => [ResolveDepartments], { nullable: true })
   departments?: ResolveDepartments[];
+
+  @Field(() => [ResolveCollaborators], { nullable: true })
+  collaborators?: ResolveCollaborators[];
 }
 
 @ObjectType()
-export class ResolveUnit extends OmitType(Unit, ['departments'] as const) {}
+export class ResolveUnit extends OmitType(Unit, [
+  'departments',
+  'collaborators',
+] as const) {}

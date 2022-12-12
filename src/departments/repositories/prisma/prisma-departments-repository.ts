@@ -71,15 +71,4 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
       include: { unit: true },
     });
   }
-  async resolveGetDepartment(id: number) {
-    const collaborator = await this.prisma.collaborator.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    return await this.prisma.department.findUnique({
-      where: { id: collaborator.departmentId },
-    });
-  }
 }

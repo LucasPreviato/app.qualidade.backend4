@@ -15,6 +15,4 @@ export abstract class UnitsRepository {
   ): Promise<Unit>;
 
   abstract remove(id: number): Promise<Unit>;
-
-  abstract resolveGetUnit(id: number): Promise<Unit>;
 }

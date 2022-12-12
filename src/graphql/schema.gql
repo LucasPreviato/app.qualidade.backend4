@@ -4,11 +4,13 @@
 
 type Collaborator {
   createdAt: DateTime!
+  department: ResolveDepartments!
   email: String!
   hireDate: DateTime!
   id: Int!
   name: String!
   phone: String
+  unit: ResolveUnit!
 }
 
 input CreateCollaboratorInput {
@@ -67,6 +69,15 @@ type Query {
   units: [Unit!]!
 }
 
+type ResolveCollaborators {
+  createdAt: DateTime!
+  email: String!
+  hireDate: DateTime!
+  id: Int!
+  name: String!
+  phone: String
+}
+
 type ResolveDepartments {
   createdAt: DateTime!
   email: String
@@ -83,6 +94,7 @@ type ResolveUnit {
 }
 
 type Unit {
+  collaborators: [ResolveCollaborators!]
   departments: [ResolveDepartments!]
   email: String
   id: Int!
