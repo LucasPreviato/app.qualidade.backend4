@@ -1003,6 +1003,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@microsoft/office-js@^1.1.82":
+  version "1.1.82"
+  resolved "https://registry.yarnpkg.com/@microsoft/office-js/-/office-js-1.1.82.tgz#4a856f78aaf4950115769d1d129da3dbffcc0a6f"
+  integrity sha512-GQUDz14CvVsaoouzVhX+1h3kDXXiOdlu2qAC28nOOQd2Z0PYvk7kIlnyVpjmsbbOAf8nah2tPq2XrvaupgpFAw==
+
 "@nestjs/apollo@^10.1.4":
   version "10.1.4"
   resolved "https://registry.yarnpkg.com/@nestjs/apollo/-/apollo-10.1.4.tgz#f2f5451ce03975e8ad79aeec447a56ccc6e37920"
@@ -1517,6 +1522,11 @@
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
+
+"@types/office-js@^1.0.305":
+  version "1.0.305"
+  resolved "https://registry.yarnpkg.com/@types/office-js/-/office-js-1.0.305.tgz#8dcc61703f1b1af94603acdbfdc7894007d1c57c"
+  integrity sha512-ij6Ja/gnfuINKIDlVGHUAjFK3wu4P67Oo9b+oZhO6D+2qB/C+NpAoJduVqWOvr+/vpOna0DkYxNp9VZZSfPvPg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"

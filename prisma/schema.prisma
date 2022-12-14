@@ -27,8 +27,8 @@ model Department {
   createdAt DateTime @default(now())
   email     String?
 
-  unit         Unit?          @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  unitId       Int?
+  unit         Unit           @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId       Int
   Collaborator Collaborator[]
 }
 
@@ -45,4 +45,35 @@ model Collaborator {
 
   department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   departmentId Int
+  position     Position?   @relation(fields: [positionId], references: [id])
+  positionId   Int?
+}
+
+model PositionCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  position Position[]
+}
+
+model Position {
+  id                     Int       @id @default(autoincrement())
+  name                   String    @unique
+  requiredQualifications String?
+  desiredQualifications  String?
+  requiredEducation      String?
+  desiredEducation       String?
+  requiredExperience     String?
+  desiredExperience      String?
+  responsibilities       String?
+  version                Int     @default(000)
+  revisionAt             DateTime @default(now())
+  alterations            String
+  createdAt              DateTime  @default(now())
+
+  positionCategory   PositionCategory @relation(fields: [positionCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  positionCategoryId Int
+
+  Collaborator Collaborator[]
 }
