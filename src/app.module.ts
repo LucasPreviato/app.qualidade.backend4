@@ -10,6 +10,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { UnitsModule } from './units/units.module';
 import { CollaboratorsModule } from './collaborators/collaborators.module';
 import { PositionCategoriesModule } from './position-categories/position-categories.module';
+import { PositionsModule } from './positions/positions.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PositionCategoriesModule } from './position-categories/position-categor
     UnitsModule,
     CollaboratorsModule,
     PositionCategoriesModule,
+    PositionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
