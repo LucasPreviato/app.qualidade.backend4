@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { DepartmentsModule } from './departments/departments.module';
 import { UnitsModule } from './units/units.module';
 import { CollaboratorsModule } from './collaborators/collaborators.module';
+import { PositionCategoriesModule } from './position-categories/position-categories.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CollaboratorsModule } from './collaborators/collaborators.module';
     DepartmentsModule,
     UnitsModule,
     CollaboratorsModule,
+    PositionCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
