@@ -10,7 +10,9 @@ describe('PositionCategoriesResolver', () => {
       providers: [PositionCategoriesResolver, PositionCategoriesService],
     }).compile();
 
-    resolver = module.get<PositionCategoriesResolver>(PositionCategoriesResolver);
+    resolver = module.get<PositionCategoriesResolver>(
+      PositionCategoriesResolver,
+    );
   });
 
   it('should be defined', () => {
