@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { InputNotFoundException } from 'src/errors/input-not-found-exception';
+import { PositionsRepository } from 'src/positions/repositories/position-repository';
 import { CreatePositionInput } from './dto/create-position.input';
 import { UpdatePositionInput } from './dto/update-position.input';
+import { Position } from './entities/position.entity';
 
 @Injectable()
 export class PositionsService {
-  create(createPositionInput: CreatePositionInput) {
-    return 'This action adds a new position';
+  constructor(private positionsRepository: PositionsRepository) {}
+  async create(createPositionInput: CreatePositionInput): Promise<Position> {
+    return await this.positionsRepository.create(createPositionInput);
   }
 
-  findAll() {
-    return `This action returns all positions`;
+  async findAll(): Promise<Position[]> {
+    return await this.positionsRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} position`;
+  async findOne(id: number): Promise<Position> {
+    const department = await this.positionsRepository.findOne(id);
+    if (!department) {
+      throw new InputNotFoundException(id);
+    }
+    return department;
   }
 
-  update(id: number, updatePositionInput: UpdatePositionInput) {
-    return `This action updates a #${id} position`;
+  async update(id: number, updatePositionInput: UpdatePositionInput) {
+    const updateDepartment = await this.positionsRepository.update(
+      id,
+      updatePositionInput,
+    );
+    return updateDepartment;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} position`;
+  async remove(id: number) {
+    const existingPosition = this.positionsRepository.findOne(id);
+    if (!existingPosition) {
+      throw new InputNotFoundException(id);
+    }
+    return await this.positionsRepository.remove(id);
   }
 }

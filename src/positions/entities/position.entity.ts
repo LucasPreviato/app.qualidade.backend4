@@ -5,6 +5,8 @@ import { ResolvePositionCategories } from 'src/position-categories/entities/posi
 export class Position {
   @Field(() => Int)
   id: number;
+  @Field(() => String)
+  name: string;
   @Field(() => String, { nullable: true })
   requiredQualifications?: string;
   @Field(() => String, { nullable: true })
