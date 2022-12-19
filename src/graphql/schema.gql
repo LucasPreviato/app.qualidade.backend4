@@ -28,6 +28,24 @@ input CreateDepartmentInput {
   unitId: Int
 }
 
+input CreatePositionCategoryInput {
+  name: String!
+}
+
+input CreatePositionInput {
+  alterations: String!
+  desiredEducation: String
+  desiredExperience: String
+  desiredQualifications: String
+  name: String!
+  positionCategoryId: Int!
+  requiredEducation: String
+  requiredExperience: String
+  requiredQualifications: String
+  revisionAt: DateTime!
+  version: Int!
+}
+
 input CreateUnitInput {
   email: String
   name: String!
@@ -51,13 +69,42 @@ type Department {
 type Mutation {
   createCollaborator(createCollaboratorInput: CreateCollaboratorInput!): Collaborator!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  createPosition(createPositionInput: CreatePositionInput!): Position!
+  createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeCollaborator(id: Int!): Collaborator!
   removeDepartment(id: Int!): Department!
+  removePosition(id: Int!): Position!
+  removePositionCategory(id: Int!): PositionCategory!
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
+  updatePosition(updatePositionInput: UpdatePositionInput!): Position!
+  updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
+}
+
+type Position {
+  alterations: String!
+  createdAt: DateTime!
+  desiredEducation: String
+  desiredExperience: String
+  desiredQualifications: String
+  id: Int!
+  name: String!
+  positionCategory: ResolvePositionCategories!
+  requiredEducation: String
+  requiredExperience: String
+  requiredQualifications: String
+  revisionAt: DateTime!
+  version: Int!
+}
+
+type PositionCategory {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  positions: [ResolvePositions!]
 }
 
 type Query {
@@ -65,6 +112,10 @@ type Query {
   collaborators: [Collaborator!]!
   department(id: Int!): Department!
   departments: [Department!]!
+  position(id: Int!): Position!
+  positionCategories: [PositionCategory!]!
+  positionCategory(id: Int!): PositionCategory!
+  positions: [Position!]!
   unit(id: Int!): Unit!
   units: [Unit!]!
 }
@@ -84,6 +135,27 @@ type ResolveDepartments {
   id: Int!
   initials: String
   name: String!
+}
+
+type ResolvePositionCategories {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+}
+
+type ResolvePositions {
+  alterations: String!
+  createdAt: DateTime!
+  desiredEducation: String
+  desiredExperience: String
+  desiredQualifications: String
+  id: Int!
+  name: String!
+  requiredEducation: String
+  requiredExperience: String
+  requiredQualifications: String
+  revisionAt: DateTime!
+  version: Int!
 }
 
 type ResolveUnit {
@@ -117,6 +189,26 @@ input UpdateDepartmentInput {
   initials: String
   name: String
   unitId: Int
+}
+
+input UpdatePositionCategoryInput {
+  id: Int!
+  name: String
+}
+
+input UpdatePositionInput {
+  alterations: String
+  desiredEducation: String
+  desiredExperience: String
+  desiredQualifications: String
+  id: Int!
+  name: String
+  positionCategoryId: Int
+  requiredEducation: String
+  requiredExperience: String
+  requiredQualifications: String
+  revisionAt: DateTime
+  version: Int
 }
 
 input UpdateUnitInput {
