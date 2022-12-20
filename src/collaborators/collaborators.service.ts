@@ -13,6 +13,7 @@ export class CollaboratorsService {
     phone,
     departmentId,
     unitId,
+    positionId,
   }: CreateCollaboratorInput) {
     return await this.collaboratorsRepository.create({
       name,
@@ -20,6 +21,7 @@ export class CollaboratorsService {
       phone,
       departmentId,
       unitId,
+      positionId,
     });
   }
 
@@ -37,7 +39,7 @@ export class CollaboratorsService {
 
   async update(
     id: number,
-    { name, email, phone, departmentId, unitId }: UpdateCollaboratorInput,
+    { name, email, phone, departmentId, unitId, positionId }: UpdateCollaboratorInput,
   ) {
     const updateCollaborator = await this.collaboratorsRepository.update(id, {
       id,
@@ -46,6 +48,7 @@ export class CollaboratorsService {
       phone,
       departmentId,
       unitId,
+      positionId,
     });
     return updateCollaborator;
   }

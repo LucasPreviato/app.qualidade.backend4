@@ -12,4 +12,6 @@ export class CreateCollaboratorInput {
   departmentId: number;
   @Field(() => Int)
   unitId: number;
+  @Field(() => Int)
+  positionId: number;
 }

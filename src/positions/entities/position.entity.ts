@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql';
 import { ResolvePositionCategories } from 'src/position-categories/entities/position-category.entity';
+import { ResolveCollaborators } from 'src/collaborators/entities/collaborator.entity';
 
 @ObjectType()
 export class Position {
@@ -29,9 +30,12 @@ export class Position {
   createdAt: Date;
   @Field(() => ResolvePositionCategories)
   positionCategory: ResolvePositionCategories;
+  @Field(() => ResolveCollaborators)
+  collaborator?: ResolveCollaborators;
 }
 
 @ObjectType()
 export class ResolvePositions extends OmitType(Position, [
   'positionCategory',
+  'collaborator'
 ] as const) {}

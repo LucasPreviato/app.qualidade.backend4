@@ -14,6 +14,7 @@ export class PrismaCollaboratorsRepository implements CollaboratorsRepository {
     phone,
     departmentId,
     unitId,
+    positionId,
   }: CreateCollaboratorInput): Promise<Collaborator> {
     const newCollaborator = await this.prisma.collaborator.create({
       data: {
@@ -22,27 +23,28 @@ export class PrismaCollaboratorsRepository implements CollaboratorsRepository {
         phone,
         unit: { connect: { id: unitId } },
         department: { connect: { id: departmentId } },
+        position: { connect: { id: positionId } },
       },
-      include: { unit: true, department: true },
+      include: { unit: true, department: true, position: true },
     });
     return newCollaborator;
   }
   async findAll(): Promise<Collaborator[]> {
     const collaborators = await this.prisma.collaborator.findMany({
-      include: { unit: true, department: true },
+      include: { unit: true, department: true, position: true },
     });
     return collaborators;
   }
   async findOne(id: number): Promise<Collaborator> {
     const collaborator = await this.prisma.collaborator.findUnique({
       where: { id },
-      include: { unit: true, department: true },
+      include: { unit: true, department: true, position: true },
     });
     return collaborator;
   }
   async update(
     id: number,
-    { name, email, phone, departmentId, unitId }: UpdateCollaboratorInput,
+    { name, email, phone, departmentId, unitId, positionId }: UpdateCollaboratorInput,
   ): Promise<Collaborator> {
     const updateCollaborator = await this.prisma.collaborator.update({
       where: { id },
@@ -52,15 +54,16 @@ export class PrismaCollaboratorsRepository implements CollaboratorsRepository {
         phone,
         unit: { connect: { id: unitId } },
         department: { connect: { id: departmentId } },
+        position: { connect: { id: positionId } },
       },
-      include: { unit: true, department: true },
+      include: { unit: true, department: true, position: true },
     });
     return updateCollaborator;
   }
   remove(id: number): Promise<Collaborator> {
     return this.prisma.collaborator.delete({
       where: { id },
-      include: { unit: true, department: true },
+      include: { unit: true, department: true, position: true },
     });
   }
 }

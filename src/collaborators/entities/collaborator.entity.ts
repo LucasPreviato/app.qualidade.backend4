@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql';
 import { ResolveDepartments } from 'src/departments/entities/department.entity';
 import { ResolveUnit } from 'src/units/entities/unit.entity';
+import { ResolvePositions } from 'src/positions/entities/position.entity';
 
 @ObjectType()
 export class Collaborator {
@@ -20,10 +21,13 @@ export class Collaborator {
   unit: ResolveUnit;
   @Field(() => ResolveDepartments)
   department: ResolveDepartments;
+  @Field(() => ResolvePositions)
+  position: ResolvePositions;
 }
 
 @ObjectType()
 export class ResolveCollaborators extends OmitType(Collaborator, [
   'unit',
   'department',
+  'position'
 ] as const) {}

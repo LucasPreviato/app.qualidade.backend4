@@ -9,6 +9,7 @@ export abstract class CollaboratorsRepository {
     phone,
     departmentId,
     unitId,
+    positionId,
   }: CreateCollaboratorInput): Promise<Collaborator>;
 
   abstract findAll(): Promise<Collaborator[]>;
@@ -17,7 +18,7 @@ export abstract class CollaboratorsRepository {
 
   abstract update(
     id: number,
-    { name, email, phone, departmentId, unitId }: UpdateCollaboratorInput,
+    { name, email, phone, departmentId, unitId, positionId }: UpdateCollaboratorInput,
   ): Promise<Collaborator>;
 
   abstract remove(id: number): Promise<Collaborator>;
