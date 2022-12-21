@@ -18,6 +18,7 @@ model Unit {
 
   departments  Department[]
   Collaborator Collaborator[]
+  Document     Document[]
 }
 
 model Department {
@@ -30,6 +31,7 @@ model Department {
   unit         Unit           @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   unitId       Int
   Collaborator Collaborator[]
+  Document     Document[]
 }
 
 model Collaborator {
@@ -43,10 +45,13 @@ model Collaborator {
   unit   Unit @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   unitId Int
 
-  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  departmentId Int
-  position     Position?   @relation(fields: [positionId], references: [id])
-  positionId   Int?
+  department          Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId        Int
+  position            Position?  @relation(fields: [positionId], references: [id])
+  positionId          Int?
+  documentElaboration Document[] @relation("ElaboratorReferral") // ElaboratorReferral is the name of the relation
+  documentRevision    Document[] @relation("RevisorReferral") // RevisorReferral is the name of the relation
+  documentAprovation  Document[] @relation("ApproverReferral") // ApproverReferral is the name of the relation
 }
 
 model PositionCategory {
@@ -58,8 +63,8 @@ model PositionCategory {
 }
 
 model Position {
-  id                     Int       @id @default(autoincrement())
-  name                   String    @unique
+  id                     Int      @id @default(autoincrement())
+  name                   String   @unique
   requiredQualifications String?
   desiredQualifications  String?
   requiredEducation      String?
@@ -67,13 +72,49 @@ model Position {
   requiredExperience     String?
   desiredExperience      String?
   responsibilities       String?
-  version                Int     @default(000)
+  version                Int      @default(000)
   revisionAt             DateTime @default(now())
   alterations            String
-  createdAt              DateTime  @default(now())
+  createdAt              DateTime @default(now())
 
   positionCategory   PositionCategory @relation(fields: [positionCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   positionCategoryId Int
 
   Collaborator Collaborator[]
+}
+
+model Document {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  reference String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  fileURL   String?
+  pdfURL    String?
+
+  elaborator   Collaborator   @relation(fields: [elaboratorId], references: [id], name: "ElaboratorReferral", onDelete: Cascade, onUpdate: Cascade)
+  elaboratorId Int
+  elaboratorAt DateTime?
+  revisor      Collaborator?  @relation(fields: [revisorId], references: [id], name: "RevisorReferral", onDelete: Cascade, onUpdate: Cascade)
+  revisorId    Int
+  revisorAt    DateTime?
+  approver     Collaborator?  @relation(fields: [approverId], references: [id], name: "ApproverReferral", onDelete: Cascade, onUpdate: Cascade)
+  approverId   Int
+  approverAt   DateTime?
+  status       DocumentStatus @default(ELABORATION)
+
+  unit         Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId       Int
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId Int
+}
+
+enum DocumentStatus {
+  ELABORATION
+  REVISION
+  APPROVAL
+  APPROVED
+  REJECTED
+  OBSOLETE
+  INATIVE
 }
