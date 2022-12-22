@@ -22,6 +22,10 @@ import { UploadsModule } from './uploads/uploads.module'
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
       sortSchema: true,
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
     }),
     MulterModule.register({
       dest: './uploads',
