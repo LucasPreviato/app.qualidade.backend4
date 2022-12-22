@@ -9,6 +9,7 @@ import { Status } from 'src/documents/enums/documents.enums'
 import { ResolveCollaborators } from 'src/collaborators/entities/collaborator.entity'
 import { ResolveUnit } from 'src/units/entities/unit.entity'
 import { ResolveDepartments } from 'src/departments/entities/department.entity'
+import { ResolveDocumentsCategory } from 'src/documents-categories/entities/documents-category.entity'
 
 registerEnumType(Status, { name: 'Status' })
 
@@ -61,6 +62,9 @@ export class Document {
 
   @Field(() => ResolveDepartments)
   department: ResolveDepartments
+
+  @Field(() => ResolveDocumentsCategory)
+  documentCategory: ResolveDocumentsCategory
 }
 
 @ObjectType()
@@ -70,4 +74,5 @@ export class ResolveDocuments extends OmitType(Document, [
   'approver',
   'unit',
   'department',
+  'documentCategory',
 ] as const) {}

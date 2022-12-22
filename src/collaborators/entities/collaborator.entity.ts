@@ -1,33 +1,37 @@
-import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql';
-import { ResolveDepartments } from 'src/departments/entities/department.entity';
-import { ResolveUnit } from 'src/units/entities/unit.entity';
-import { ResolvePositions } from 'src/positions/entities/position.entity';
+import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql'
+import { ResolveDepartments } from 'src/departments/entities/department.entity'
+import { ResolveUnit } from 'src/units/entities/unit.entity'
+import { ResolvePositions } from 'src/positions/entities/position.entity'
+import { ResolveDocuments } from 'src/documents/entities/document.entity'
 
 @ObjectType()
 export class Collaborator {
   @Field(() => Int)
-  id: number;
+  id: number
   @Field(() => String)
-  name: string;
+  name: string
   @Field(() => String)
-  email: string;
+  email: string
   @Field(() => String, { nullable: true })
-  phone?: string;
+  phone?: string
   @Field(() => Date)
-  createdAt: Date;
+  createdAt: Date
   @Field(() => Date)
-  hireDate: Date;
+  hireDate: Date
   @Field(() => ResolveUnit)
-  unit: ResolveUnit;
+  unit: ResolveUnit
   @Field(() => ResolveDepartments)
-  department: ResolveDepartments;
+  department: ResolveDepartments
   @Field(() => ResolvePositions)
-  position: ResolvePositions;
+  position: ResolvePositions
+  @Field(() => [ResolveDocuments], { nullable: true })
+  documents?: ResolveDocuments[]
 }
 
 @ObjectType()
 export class ResolveCollaborators extends OmitType(Collaborator, [
   'unit',
   'department',
-  'position'
+  'position',
+  'documents',
 ] as const) {}

@@ -5,6 +5,7 @@ import {
   ObjectType,
   OmitType,
 } from '@nestjs/graphql'
+import { ResolveDocuments } from 'src/documents/entities/document.entity'
 import { CodeFormat } from '../enums/documents-categories.code-format.enums'
 
 registerEnumType(DocumentType, {
@@ -26,10 +27,11 @@ export class DocumentsCategory {
   documentType: DocumentType
   @Field(() => CodeFormat, { defaultValue: 'SIMPLE' })
   codeFormat: CodeFormat
+  @Field(() => [ResolveDocuments], { nullable: true })
+  documents?: ResolveDocuments[]
 }
 
 @ObjectType()
-export class ResolveDocumentsCategory extends OmitType(
-  DocumentsCategory,
-  [] as const
-) {}
+export class ResolveDocumentsCategory extends OmitType(DocumentsCategory, [
+  'documents',
+] as const) {}
