@@ -103,10 +103,35 @@ model Document {
   approverAt   DateTime?
   status       DocumentStatus @default(ELABORATION)
 
-  unit         Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  unitId       Int
-  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  departmentId Int
+  unit               Unit              @relation(fields: [unitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unitId             Int
+  department         Department        @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId       Int
+  DocumentCategory   DocumentCategory? @relation(fields: [documentCategoryId], references: [id])
+  documentCategoryId Int?
+}
+
+model DocumentCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  documentType DocumentType
+  documentCode DocumentCodeFormat
+  
+  document Document[]
+}
+
+enum DocumentType {
+  WORD
+  EXCEL
+  PDF
+}
+
+enum DocumentCodeFormat {
+  SIMPLE
+  NUMBERED_BY_DEPARTMENT
+  NUMBERED_SEPARATELY_BY_DEPARTMENT
 }
 
 enum DocumentStatus {

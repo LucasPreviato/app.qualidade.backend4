@@ -12,6 +12,7 @@ import { CollaboratorsModule } from './collaborators/collaborators.module'
 import { PositionCategoriesModule } from './position-categories/position-categories.module'
 import { PositionsModule } from './positions/positions.module'
 import { DocumentsModule } from './documents/documents.module'
+import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { DocumentsModule } from './documents/documents.module'
     PositionCategoriesModule,
     PositionsModule,
     DocumentsModule,
+    DocumentsCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
