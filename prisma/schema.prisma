@@ -51,7 +51,7 @@ model Collaborator {
   positionId          Int?
   documentElaboration Document[] @relation("ElaboratorReferral") // ElaboratorReferral is the name of the relation
   documentRevision    Document[] @relation("RevisorReferral") // RevisorReferral is the name of the relation
-  documentAprovation  Document[] @relation("ApproverReferral") // ApproverReferral is the name of the relation
+  documentApprovation Document[] @relation("ApproverReferral") // ApproverReferral is the name of the relation
 }
 
 model PositionCategory {
