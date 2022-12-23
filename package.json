@@ -33,12 +33,14 @@
     "@nestjs/platform-express": "^9.2.1",
     "@prisma/client": "^4.7.1",
     "apollo-server-express": "^3.10.3",
+    "aws-sdk": "^2.1280.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

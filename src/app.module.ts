@@ -12,7 +12,6 @@ import { CollaboratorsModule } from './collaborators/collaborators.module'
 import { PositionCategoriesModule } from './position-categories/position-categories.module'
 import { PositionsModule } from './positions/positions.module'
 import { MulterModule } from '@nestjs/platform-express'
-import { UploadsModule } from './uploads/uploads.module'
 
 @Module({
   imports: [
@@ -37,7 +36,6 @@ import { UploadsModule } from './uploads/uploads.module'
     PositionCategoriesModule,
     PositionsModule,
     MulterModule,
-    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
