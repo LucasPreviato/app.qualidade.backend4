@@ -6,13 +6,13 @@ import {
   OmitType,
 } from '@nestjs/graphql'
 import { ResolveDocuments } from 'src/documents/entities/document.entity'
-import { CodeFormat } from '../enums/documents-categories.code-format.enums'
+import { DocumentCodeFormat, DocumentType } from '@prisma/client'
 
 registerEnumType(DocumentType, {
   name: 'DocumentType',
 })
-registerEnumType(CodeFormat, {
-  name: 'CodeFormat',
+registerEnumType(DocumentCodeFormat, {
+  name: 'DocumentCodeFormat',
 })
 
 @ObjectType()
@@ -25,8 +25,8 @@ export class DocumentsCategory {
   createdAt: Date
   @Field(() => DocumentType)
   documentType: DocumentType
-  @Field(() => CodeFormat, { defaultValue: 'SIMPLE' })
-  codeFormat: CodeFormat
+  @Field(() => DocumentCodeFormat, { defaultValue: 'SIMPLE' })
+  codeFormat: DocumentCodeFormat
   @Field(() => [ResolveDocuments], { nullable: true })
   documents?: ResolveDocuments[]
 }

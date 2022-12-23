@@ -1,26 +1,109 @@
 import { Injectable } from '@nestjs/common'
+import { InputNotFoundException } from 'src/errors/input-not-found-exception'
 import { CreateDocumentInput } from './dto/create-document.input'
 import { UpdateDocumentInput } from './dto/update-document.input'
+import { DocumentsRepository } from './repositories/documents-repository'
 
 @Injectable()
 export class DocumentsService {
-  create(createDocumentInput: CreateDocumentInput) {
-    return 'This action adds a new document'
+  constructor(private documentsRepository: DocumentsRepository) {}
+
+  async create({
+    name,
+    reference,
+    updatedAt,
+    fileURL,
+    pdfURL,
+    elaboratorId,
+    elaboratorAt,
+    revisorId,
+    revisorAt,
+    approverId,
+    approverAt,
+    status,
+    unitId,
+    departmentId,
+    documentCategoryId,
+  }: CreateDocumentInput) {
+    return await this.documentsRepository.create({
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    })
   }
 
-  findAll() {
-    return `This action returns all documents`
+  async findAll() {
+    return await this.documentsRepository.findAll()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} document`
+  async findOne(id: number) {
+    const document = await this.documentsRepository.findOne(id)
+    if (!document) {
+      throw new InputNotFoundException(id)
+    }
+    return document
   }
 
-  update(id: number, updateDocumentInput: UpdateDocumentInput) {
-    return `This action updates a #${id} document`
+  async update(
+    id: number,
+    {
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    }: UpdateDocumentInput
+  ) {
+    const updateDocument = await this.documentsRepository.update(id, {
+      id,
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    })
+
+    return updateDocument
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} document`
+  async remove(id: number) {
+    const existingDocument = await this.documentsRepository.remove(id)
+    if (!existingDocument) {
+      throw new InputNotFoundException(id)
+    }
+
+    return await this.documentsRepository.remove(id)
   }
 }

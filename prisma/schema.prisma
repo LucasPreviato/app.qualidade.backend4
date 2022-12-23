@@ -117,7 +117,7 @@ model DocumentCategory {
   createdAt DateTime @default(now())
 
   documentType DocumentType
-  documentCode DocumentCodeFormat
+  codeFormat DocumentCodeFormat
   
   document Document[]
 }

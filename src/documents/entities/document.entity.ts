@@ -5,13 +5,13 @@ import {
   registerEnumType,
   OmitType,
 } from '@nestjs/graphql'
-import { Status } from 'src/documents/enums/documents.enums'
+import { DocumentStatus } from '@prisma/client'
 import { ResolveCollaborators } from 'src/collaborators/entities/collaborator.entity'
 import { ResolveUnit } from 'src/units/entities/unit.entity'
 import { ResolveDepartments } from 'src/departments/entities/department.entity'
 import { ResolveDocumentsCategory } from 'src/documents-categories/entities/documents-category.entity'
 
-registerEnumType(Status, { name: 'Status' })
+registerEnumType(DocumentStatus, { name: 'DocumentStatus' })
 
 @ObjectType()
 export class Document {
@@ -22,40 +22,40 @@ export class Document {
   name: string
 
   @Field(() => String, { nullable: true })
-  reference: string
+  reference?: string
 
   @Field(() => Date)
   createdAt: Date
 
   @Field(() => Date, { nullable: true })
-  updatedAt: Date
+  updatedAt?: Date
 
   @Field(() => String, { nullable: true })
-  fileURL: string
+  fileURL?: string
 
   @Field(() => String, { nullable: true })
-  pdfURL: string
+  pdfURL?: string
 
   @Field(() => ResolveCollaborators)
   elaborator: ResolveCollaborators
 
   @Field(() => Date, { nullable: true })
-  elaboratorAt: Date
+  elaboratorAt?: Date
 
-  @Field(() => ResolveCollaborators)
-  revisor: ResolveCollaborators
-
-  @Field(() => Date, { nullable: true })
-  revisorAt: Date
-
-  @Field(() => ResolveCollaborators)
-  approver: ResolveCollaborators
+  @Field(() => ResolveCollaborators, { nullable: true })
+  revisor?: ResolveCollaborators
 
   @Field(() => Date, { nullable: true })
-  approverAt: Date
+  revisorAt?: Date
 
-  @Field(() => Status, { defaultValue: 'ELABORATION' })
-  status: Status
+  @Field(() => ResolveCollaborators, { nullable: true })
+  approver?: ResolveCollaborators
+
+  @Field(() => Date, { nullable: true })
+  approverAt?: Date
+
+  @Field(() => DocumentStatus, { defaultValue: DocumentStatus.ELABORATION })
+  status: DocumentStatus
 
   @Field(() => ResolveUnit)
   unit: ResolveUnit
@@ -64,7 +64,7 @@ export class Document {
   department: ResolveDepartments
 
   @Field(() => ResolveDocumentsCategory)
-  documentCategory: ResolveDocumentsCategory
+  DocumentCategory: ResolveDocumentsCategory
 }
 
 @ObjectType()
@@ -74,5 +74,5 @@ export class ResolveDocuments extends OmitType(Document, [
   'approver',
   'unit',
   'department',
-  'documentCategory',
+  'DocumentCategory',
 ] as const) {}

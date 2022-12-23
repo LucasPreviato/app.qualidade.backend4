@@ -1,9 +1,0 @@
-export enum Status {
-  ELABORATION,
-  REVISION,
-  APPROVAL,
-  APPROVED,
-  REJECTED,
-  OBSOLETE,
-  INATIVE,
-}
