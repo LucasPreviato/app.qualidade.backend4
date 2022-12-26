@@ -11,7 +11,8 @@ import { UnitsModule } from './units/units.module'
 import { CollaboratorsModule } from './collaborators/collaborators.module'
 import { PositionCategoriesModule } from './position-categories/position-categories.module'
 import { PositionsModule } from './positions/positions.module'
-import { MulterModule } from '@nestjs/platform-express'
+import { DocumentsModule } from './documents/documents.module'
+import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
 
 @Module({
   imports: [
@@ -26,16 +27,15 @@ import { MulterModule } from '@nestjs/platform-express'
         credentials: true,
       },
     }),
-    MulterModule.register({
-      dest: './uploads',
-    }),
+
     PrismaModule,
     DepartmentsModule,
     UnitsModule,
     CollaboratorsModule,
     PositionCategoriesModule,
     PositionsModule,
-    MulterModule,
+    DocumentsModule,
+    DocumentsCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
