@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { S3 } from 'aws-sdk'
+import { FileUpload } from 'graphql-upload-minimal'
 import { Uploads } from './entities/uploads.entity'
 
 @Injectable()
@@ -16,13 +17,13 @@ export class UploadsService {
     })
   }
 
-  async uploadFile(file: any): Promise<Uploads> {
-    const fileName = `${Date.now()}-${file.originalname}`
-    const fileType = file.mimetype
+  async uploadFile(file: Promise<FileUpload>): Promise<Uploads> {
+    const fileName = `${Date.now()}-${(await file).filename}`
+    const fileType = (await file).mimetype
     const s3Params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName,
-      Body: file.buffer,
+      Body: (await file).createReadStream(),
       ContentType: fileType,
       ACL: 'public-read',
     }

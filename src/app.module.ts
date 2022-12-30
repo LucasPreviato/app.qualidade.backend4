@@ -15,7 +15,6 @@ import { DocumentsModule } from './documents/documents.module'
 import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
 import { S3Module } from 'nestjs-s3'
 import { UploadsModule } from './uploads/uploads.module'
-import { MulterMiddleware } from './middlewares/multer.middleware'
 
 @Module({
   imports: [

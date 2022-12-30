@@ -3,16 +3,22 @@ import { DocumentsService } from './documents.service'
 import { Document } from './entities/document.entity'
 import { CreateDocumentInput } from './dto/create-document.input'
 import { UpdateDocumentInput } from './dto/update-document.input'
+import { GraphQLUpload, FileUpload } from 'graphql-upload-minimal'
+import { UseInterceptors } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 @Resolver(() => Document)
 export class DocumentsResolver {
   constructor(private readonly documentsService: DocumentsService) {}
 
   @Mutation(() => Document)
+  @UseInterceptors(FileInterceptor('documentFile'))
   createDocument(
-    @Args('createDocumentInput') createDocumentInput: CreateDocumentInput
+    @Args('createDocumentInput') createDocumentInput: CreateDocumentInput,
+    @Args('documentFile', { type: () => GraphQLUpload, nullable: true })
+    documentFile: Promise<FileUpload>
   ) {
-    return this.documentsService.create(createDocumentInput)
+    return this.documentsService.create(createDocumentInput, documentFile)
   }
 
   @Query(() => [Document], { name: 'documents' })
@@ -27,11 +33,14 @@ export class DocumentsResolver {
 
   @Mutation(() => Document)
   updateDocument(
-    @Args('updateDocumentInput') updateDocumentInput: UpdateDocumentInput
+    @Args('updateDocumentInput') updateDocumentInput: UpdateDocumentInput,
+    @Args('documentFile', { type: () => GraphQLUpload, nullable: true })
+    documentFile: Promise<FileUpload>
   ) {
     return this.documentsService.update(
       updateDocumentInput.id,
-      updateDocumentInput
+      updateDocumentInput,
+      documentFile
     )
   }
 
