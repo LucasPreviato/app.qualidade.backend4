@@ -50,8 +50,11 @@ input CreateDocumentInput {
 }
 
 input CreateDocumentsCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  codeFormat: DocumentCodeFormat = SIMPLE
+  createdAt: DateTime!
+  documentType: DocumentType
+  id: Int!
+  name: String!
 }
 
 input CreatePositionCategoryInput {
@@ -165,6 +168,7 @@ type Mutation {
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
+  uploadFile: Uploads!
 }
 
 type Position {
@@ -323,9 +327,11 @@ input UpdateDocumentInput {
 }
 
 input UpdateDocumentsCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  codeFormat: DocumentCodeFormat = SIMPLE
+  createdAt: DateTime
+  documentType: DocumentType
   id: Int!
+  name: String
 }
 
 input UpdatePositionCategoryInput {
@@ -357,3 +363,9 @@ input UpdateUnitInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+type Uploads {
+  fileName: String!
+  fileType: String!
+  fileUrl: String!
+}
