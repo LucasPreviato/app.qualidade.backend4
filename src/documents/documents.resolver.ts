@@ -12,13 +12,12 @@ export class DocumentsResolver {
   constructor(private readonly documentsService: DocumentsService) {}
 
   @Mutation(() => Document)
-  @UseInterceptors(FileInterceptor('documentFile'))
   createDocument(
     @Args('createDocumentInput') createDocumentInput: CreateDocumentInput,
     @Args('documentFile', { type: () => GraphQLUpload, nullable: true })
     documentFile: Promise<FileUpload>
   ) {
-    return this.documentsService.create(createDocumentInput, documentFile)
+    return this.documentsService.createGQL(createDocumentInput, documentFile)
   }
 
   @Query(() => [Document], { name: 'documents' })
@@ -37,7 +36,7 @@ export class DocumentsResolver {
     @Args('documentFile', { type: () => GraphQLUpload, nullable: true })
     documentFile: Promise<FileUpload>
   ) {
-    return this.documentsService.update(
+    return this.documentsService.updateGQL(
       updateDocumentInput.id,
       updateDocumentInput,
       documentFile

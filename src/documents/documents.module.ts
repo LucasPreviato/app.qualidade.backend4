@@ -5,8 +5,11 @@ import { DocumentsRepository } from './repositories/documents-repository'
 import { PrismaDocumentsRepository } from './repositories/prisma/prisma-documents-repository'
 import { UploadsModule } from 'src/uploads/uploads.module'
 import { UploadsService } from 'src/uploads/uploads.service'
+import { DocumentsController } from './documents.controller'
 
 @Module({
+  controllers: [DocumentsController],
+
   providers: [
     DocumentsResolver,
     DocumentsService,

@@ -14,6 +14,6 @@ export class UploadsResolver {
   async uploadFile(
     @UploadedFile() file: Promise<FileUpload>
   ): Promise<Uploads> {
-    return this.uploadsService.uploadFile(file)
+    return this.uploadsService.uploadFile(null)
   }
 }

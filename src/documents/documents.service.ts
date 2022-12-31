@@ -3,8 +3,8 @@ import { InputNotFoundException } from 'src/errors/input-not-found-exception'
 import { CreateDocumentInput } from './dto/create-document.input'
 import { UpdateDocumentInput } from './dto/update-document.input'
 import { DocumentsRepository } from './repositories/documents-repository'
-import { FileUpload } from 'graphql-upload-minimal'
 import { UploadsService } from 'src/uploads/uploads.service'
+import { FileUpload } from 'graphql-upload-minimal'
 
 @Injectable()
 export class DocumentsService {
@@ -32,11 +32,60 @@ export class DocumentsService {
       documentCategoryId,
     }: CreateDocumentInput,
 
-    documentFile: Promise<FileUpload>
+    documentFile: Express.Multer.File
   ) {
     try {
       if (documentFile) {
         const upload = this.uploadsService.uploadFile(documentFile)
+        fileURL = (await upload).fileUrl
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+    return await this.documentsRepository.create({
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    })
+  }
+
+  async createGQL(
+    {
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    }: CreateDocumentInput,
+
+    documentFile: Promise<FileUpload>
+  ) {
+    try {
+      if (documentFile) {
+        const upload = this.uploadsService.uploadFileGQL(documentFile)
         fileURL = (await upload).fileUrl
       }
     } catch (e) {
@@ -94,11 +143,64 @@ export class DocumentsService {
       documentCategoryId,
     }: UpdateDocumentInput,
 
-    documentFile: Promise<FileUpload>
+    documentFile: Express.Multer.File
   ) {
     try {
       if (documentFile) {
         const upload = this.uploadsService.uploadFile(documentFile)
+        fileURL = (await upload).fileUrl
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+    const updateDocument = await this.documentsRepository.update(id, {
+      id,
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    })
+
+    return updateDocument
+  }
+
+  async updateGQL(
+    id: number,
+    {
+      name,
+      reference,
+      updatedAt,
+      fileURL,
+      pdfURL,
+      elaboratorId,
+      elaboratorAt,
+      revisorId,
+      revisorAt,
+      approverId,
+      approverAt,
+      status,
+      unitId,
+      departmentId,
+      documentCategoryId,
+    }: UpdateDocumentInput,
+
+    documentFile: Promise<FileUpload>
+  ) {
+    try {
+      if (documentFile) {
+        const upload = this.uploadsService.uploadFileGQL(documentFile)
         fileURL = (await upload).fileUrl
       }
     } catch (e) {

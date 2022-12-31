@@ -17,7 +17,30 @@ export class UploadsService {
     })
   }
 
-  async uploadFile(file: Promise<FileUpload>): Promise<Uploads> {
+  async uploadFile(file: Express.Multer.File): Promise<Uploads> {
+    const fileName = `${Date.now()}-${file.originalname}`
+    const fileType = file.mimetype
+    const s3Params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileName,
+      Body: file.buffer,
+      ContentType: fileType,
+      ACL: 'public-read',
+    }
+    try {
+      await this.s3.upload(s3Params).promise()
+      return {
+        fileName,
+        fileType,
+        fileUrl: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`,
+      }
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async uploadFileGQL(file: Promise<FileUpload>): Promise<Uploads> {
     const fileName = `${Date.now()}-${(await file).filename}`
     const fileType = (await file).mimetype
     const s3Params = {

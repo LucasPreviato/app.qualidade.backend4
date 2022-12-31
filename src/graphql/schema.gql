@@ -51,9 +51,7 @@ input CreateDocumentInput {
 
 input CreateDocumentsCategoryInput {
   codeFormat: DocumentCodeFormat = SIMPLE
-  createdAt: DateTime!
   documentType: DocumentType
-  id: Int!
   name: String!
 }
 
@@ -328,7 +326,6 @@ input UpdateDocumentInput {
 
 input UpdateDocumentsCategoryInput {
   codeFormat: DocumentCodeFormat = SIMPLE
-  createdAt: DateTime
   documentType: DocumentType
   id: Int!
   name: String
