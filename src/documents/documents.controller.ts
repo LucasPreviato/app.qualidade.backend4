@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -37,7 +37,7 @@ export class DocumentsController {
     return this.documentsService.findOne(id)
   }
 
-  @Patch(':id')
+  @Put(':id')
   @UseInterceptors(FileInterceptor('documentFile'))
   async updateDocument(
     @Body() updateDocumentInput: UpdateDocumentInput,

@@ -6,6 +6,8 @@ import { DocumentsRepository } from './repositories/documents-repository'
 import { UploadsService } from 'src/uploads/uploads.service'
 import { FileUpload } from 'graphql-upload-minimal'
 
+const bucketName = 'suntech-documents'
+
 @Injectable()
 export class DocumentsService {
   constructor(
@@ -36,7 +38,7 @@ export class DocumentsService {
   ) {
     try {
       if (documentFile) {
-        const upload = this.uploadsService.uploadFile(documentFile)
+        const upload = this.uploadsService.uploadFile(documentFile, bucketName)
         fileURL = (await upload).fileUrl
       }
     } catch (e) {
@@ -85,7 +87,10 @@ export class DocumentsService {
   ) {
     try {
       if (documentFile) {
-        const upload = this.uploadsService.uploadFileGQL(documentFile)
+        const upload = this.uploadsService.uploadFileGQL(
+          documentFile,
+          bucketName
+        )
         fileURL = (await upload).fileUrl
       }
     } catch (e) {
@@ -147,7 +152,7 @@ export class DocumentsService {
   ) {
     try {
       if (documentFile) {
-        const upload = this.uploadsService.uploadFile(documentFile)
+        const upload = this.uploadsService.uploadFile(documentFile, bucketName)
         fileURL = (await upload).fileUrl
       }
     } catch (e) {
@@ -200,7 +205,10 @@ export class DocumentsService {
   ) {
     try {
       if (documentFile) {
-        const upload = this.uploadsService.uploadFileGQL(documentFile)
+        const upload = this.uploadsService.uploadFileGQL(
+          documentFile,
+          bucketName
+        )
         fileURL = (await upload).fileUrl
       }
     } catch (e) {
