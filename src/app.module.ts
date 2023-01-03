@@ -13,6 +13,8 @@ import { PositionCategoriesModule } from './position-categories/position-categor
 import { PositionsModule } from './positions/positions.module'
 import { DocumentsModule } from './documents/documents.module'
 import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
+import { S3Module } from 'nestjs-s3'
+import { UploadsModule } from './uploads/uploads.module'
 
 @Module({
   imports: [
@@ -27,6 +29,16 @@ import { DocumentsCategoriesModule } from './documents-categories/documents-cate
         credentials: true,
       },
     }),
+    S3Module.forRoot({
+      config: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION,
+        endpoint: process.env.AWS_ENDPOINT,
+        s3ForcePathStyle: true,
+        signatureVersion: 'v4',
+      }, // your aws s3 configuration
+    }),
 
     PrismaModule,
     DepartmentsModule,
@@ -36,6 +48,7 @@ import { DocumentsCategoriesModule } from './documents-categories/documents-cate
     PositionsModule,
     DocumentsModule,
     DocumentsCategoriesModule,
+    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

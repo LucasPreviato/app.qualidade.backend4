@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "maxNodeModuleJsDepth": 10,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,

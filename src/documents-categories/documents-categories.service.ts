@@ -1,29 +1,56 @@
 import { Injectable } from '@nestjs/common'
+import { InputNotFoundException } from 'src/errors/input-not-found-exception'
 import { CreateDocumentsCategoryInput } from './dto/create-documents-category.input'
 import { UpdateDocumentsCategoryInput } from './dto/update-documents-category.input'
+import { DocumentsCategoriesRepository } from './repositories/documents-categories-repository'
 
 @Injectable()
 export class DocumentsCategoriesService {
-  create(createDocumentsCategoryInput: CreateDocumentsCategoryInput) {
-    return 'This action adds a new documentsCategory'
+  constructor(
+    private documentsCategoriesRepository: DocumentsCategoriesRepository
+  ) {}
+  async create(createDocumentsCategoryInput: CreateDocumentsCategoryInput) {
+    const newDocumentsCategory =
+      await this.documentsCategoriesRepository.create(
+        createDocumentsCategoryInput
+      )
+    return newDocumentsCategory
+  }
+  async findAll() {
+    return await this.documentsCategoriesRepository.findAll()
   }
 
-  findAll() {
-    return `This action returns all documentsCategories`
+  async findOne(id: number) {
+    const documentCategory = await this.documentsCategoriesRepository.findOne(
+      id
+    )
+    if (!documentCategory) {
+      throw new InputNotFoundException(id)
+    }
+    return documentCategory
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} documentsCategory`
-  }
-
-  update(
+  async update(
     id: number,
     updateDocumentsCategoryInput: UpdateDocumentsCategoryInput
   ) {
-    return `This action updates a #${id} documentsCategory`
+    const updatedDocumentCategory =
+      await this.documentsCategoriesRepository.update(
+        id,
+        updateDocumentsCategoryInput
+      )
+    if (!updatedDocumentCategory) {
+      throw new InputNotFoundException(id)
+    }
+    return updatedDocumentCategory
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} documentsCategory`
+  async remove(id: number) {
+    const deletedDocumentCategory =
+      await this.documentsCategoriesRepository.remove(id)
+    if (!deletedDocumentCategory) {
+      throw new InputNotFoundException(id)
+    }
+    return deletedDocumentCategory
   }
 }

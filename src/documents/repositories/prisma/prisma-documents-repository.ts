@@ -141,8 +141,8 @@ export class PrismaDocumentsRepository implements DocumentsRepository {
     return updateDocument
   }
 
-  remove(id: number): Promise<Document> {
-    return this.prisma.document.delete({
+  async remove(id: number): Promise<Document> {
+    return await this.prisma.document.delete({
       where: { id },
       include: {
         elaborator: true,
