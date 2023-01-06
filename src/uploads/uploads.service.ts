@@ -1,18 +1,27 @@
 import { Injectable } from '@nestjs/common'
 import { S3 } from 'aws-sdk'
+import {
+  CreateBucketCommand,
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3'
 import { CreateBucketRequest } from 'aws-sdk/clients/s3'
 import { FileUpload } from 'graphql-upload-minimal'
-import { check } from 'prettier'
 import { Uploads } from './entities/uploads.entity'
 
 @Injectable()
 export class UploadsService {
   private readonly s3: S3
+  private readonly s3Client: S3Client
+
   constructor() {
     this.s3 = new S3({
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     })
+
+    this.s3Client = new S3Client({ region: process.env.AWS_REGION })
   }
 
   async checkBucket(bucketName: string) {
@@ -32,17 +41,18 @@ export class UploadsService {
       CreateBucketConfiguration: {
         LocationConstraint: process.env.AWS_REGION,
       },
+      ACL: '',
     }
 
     try {
-      const res = await this.s3.createBucket(params).promise()
+      const res = await this.s3Client.send(new CreateBucketCommand(params))
 
-      console.log('Bucket created successfully', res.Location)
+      console.log('Bucket created successfully')
 
       return {
         success: true,
         message: 'Bucket created successfully',
-        data: res.Location,
+        data: res,
       }
     } catch (error) {
       console.log('Error: unable to create bucket \n', error)
@@ -63,7 +73,7 @@ export class UploadsService {
 
     if (!bucketStatus.success) {
       const bucket = await this.createBucket(bucketName)
-      console.log(bucket.message)
+      console.log(bucket)
     }
 
     const fileName = `${Date.now()}-${file.originalname}`
@@ -76,7 +86,7 @@ export class UploadsService {
       ACL: 'public-read',
     }
     try {
-      await this.s3.upload(s3Params).promise()
+      await this.s3Client.send(new PutObjectCommand(s3Params))
       return {
         fileName,
         fileType,
@@ -85,6 +95,24 @@ export class UploadsService {
           bucketName +
           `.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`,
       }
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async deleteFile(fileName: string, bucketName: string): Promise<boolean> {
+    await this.checkBucket(bucketName)
+
+    const s3Params = {
+      Bucket: bucketName,
+      Key: fileName,
+    }
+    try {
+      const deletion = await this.s3Client.send(
+        new DeleteObjectCommand(s3Params)
+      )
+      return deletion.DeleteMarker
     } catch (error) {
       console.log(error)
       throw error

@@ -1,5 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
+import { WinstonModule } from 'nest-winston'
+import * as winston from 'winston'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { join } from 'path'
@@ -39,7 +41,15 @@ import { UploadsModule } from './uploads/uploads.module'
         signatureVersion: 'v4',
       }, // your aws s3 configuration
     }),
-
+    WinstonModule.forRoot({
+      level: 'http',
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' }),
+      ],
+    }),
     PrismaModule,
     DepartmentsModule,
     UnitsModule,

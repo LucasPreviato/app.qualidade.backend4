@@ -43,6 +43,7 @@ export class DocumentsService {
       }
     } catch (e) {
       console.error(e)
+      return e
     }
 
     return await this.documentsRepository.create({
@@ -95,6 +96,7 @@ export class DocumentsService {
       }
     } catch (e) {
       console.error(e)
+      return e
     }
 
     return await this.documentsRepository.create({
@@ -157,6 +159,7 @@ export class DocumentsService {
       }
     } catch (e) {
       console.error(e)
+      return e
     }
 
     const updateDocument = await this.documentsRepository.update(id, {
@@ -213,6 +216,7 @@ export class DocumentsService {
       }
     } catch (e) {
       console.error(e)
+      return e
     }
 
     const updateDocument = await this.documentsRepository.update(id, {

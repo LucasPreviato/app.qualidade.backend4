@@ -31,24 +31,6 @@ input CreateDepartmentInput {
   unitId: Int
 }
 
-input CreateDocumentInput {
-  approverAt: DateTime
-  approverId: Int
-  departmentId: Int!
-  documentCategoryId: Int!
-  elaboratorAt: DateTime
-  elaboratorId: Int!
-  fileURL: String
-  name: String!
-  pdfURL: String
-  reference: String
-  revisorAt: DateTime
-  revisorId: Int
-  status: DocumentStatus
-  unitId: Int!
-  updatedAt: DateTime
-}
-
 input CreateDocumentsCategoryInput {
   codeFormat: DocumentCodeFormat = SIMPLE
   documentType: DocumentType
@@ -147,7 +129,6 @@ type DocumentsCategory {
 type Mutation {
   createCollaborator(createCollaboratorInput: CreateCollaboratorInput!): Collaborator!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
-  createDocument(createDocumentInput: CreateDocumentInput!, documentFile: Upload): Document!
   createDocumentsCategory(createDocumentsCategoryInput: CreateDocumentsCategoryInput!): DocumentsCategory!
   createPosition(createPositionInput: CreatePositionInput!): Position!
   createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
@@ -161,7 +142,6 @@ type Mutation {
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
-  updateDocument(documentFile: Upload, updateDocumentInput: UpdateDocumentInput!): Document!
   updateDocumentsCategory(updateDocumentsCategoryInput: UpdateDocumentsCategoryInput!): DocumentsCategory!
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
@@ -305,25 +285,6 @@ input UpdateDepartmentInput {
   unitId: Int
 }
 
-input UpdateDocumentInput {
-  approverAt: DateTime
-  approverId: Int
-  departmentId: Int
-  documentCategoryId: Int
-  elaboratorAt: DateTime
-  elaboratorId: Int
-  fileURL: String
-  id: Int!
-  name: String
-  pdfURL: String
-  reference: String
-  revisorAt: DateTime
-  revisorId: Int
-  status: DocumentStatus
-  unitId: Int
-  updatedAt: DateTime
-}
-
 input UpdateDocumentsCategoryInput {
   codeFormat: DocumentCodeFormat = SIMPLE
   documentType: DocumentType
@@ -357,9 +318,6 @@ input UpdateUnitInput {
   name: String
   phone: String
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 type Uploads {
   fileName: String!
