@@ -15,6 +15,7 @@ model Unit {
   name  String  @unique
   email String?
   phone String?
+  text  String?
 
   departments  Department[]
   Collaborator Collaborator[]
@@ -117,8 +118,8 @@ model DocumentCategory {
   createdAt DateTime @default(now())
 
   documentType DocumentType
-  codeFormat DocumentCodeFormat
-  
+  codeFormat   DocumentCodeFormat
+
   document Document[]
 }
 
