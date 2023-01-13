@@ -1,8 +1,8 @@
 version: '3.9'
 services:
   postgres:
-    image: postgres:latest
-    container_name: server
+    image: postgres:alpine
+    container_name: database
     ports:
       - 5432:5432
     volumes:
@@ -24,27 +24,16 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
-  prisma-postgres-api:
-    stdin_open: true
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: prisma-postgres-api
-    depends_on:
-      - postgres
-    ports:
-      - "3333:3333"
-    restart: always
   redis:
     image: redis:alpine
+    depends_on: 
+      - postgres
     container_name: redis
     ports:
       - "6379:6379"
     restart: always
     volumes:
       - redis-data:/data
-
-
 volumes:
   postgres:
     name: database
