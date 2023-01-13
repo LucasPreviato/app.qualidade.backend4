@@ -1,8 +1,8 @@
 version: '3.9'
 services:
   postgres:
-    image: postgres:latest
-    container_name: server
+    image: postgres:alpine
+    container_name: database
     ports:
       - 5432:5432
     volumes:
@@ -17,15 +17,27 @@ services:
     depends_on:
       - postgres
     ports:
-      - "5555:80"
+      - "7777:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
-
+  redis:
+    image: redis:alpine
+    depends_on: 
+      - postgres
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis-data:/data
 volumes:
   postgres:
-    name: server
+    name: database
   pgadmin-data:
+    name: pgadmin
+  redis-data:
+    name: redis
