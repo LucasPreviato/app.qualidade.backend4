@@ -1,9 +1,11 @@
-import { CreateDocumentsCategoryInput } from 'src/documents-categories/dto/create-documents-category.input'
-import { UpdateDocumentsCategoryInput } from 'src/documents-categories/dto/update-documents-category.input'
-import { DocumentsCategory } from 'src/documents-categories/entities/documents-category.entity'
-import { PrismaService } from 'src/prisma/prisma.service'
-import { DocumentsCategoriesRepository } from '../documents-categories-repository'
+import { Injectable } from '@nestjs/common';
+import { CreateDocumentsCategoryInput } from 'src/documents-categories/dto/create-documents-category.input';
+import { UpdateDocumentsCategoryInput } from 'src/documents-categories/dto/update-documents-category.input';
+import { DocumentsCategory } from 'src/documents-categories/entities/documents-category.entity';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { DocumentsCategoriesRepository } from '../documents-categories-repository';
 
+@Injectable()
 export class PrismaDocumentsCategoriesRepository
   implements DocumentsCategoriesRepository
 {
@@ -19,18 +21,18 @@ export class PrismaDocumentsCategoriesRepository
         documentType,
         codeFormat,
       },
-    })
-    return newDocumentCategory
+    });
+    return newDocumentCategory;
   }
   async findAll(): Promise<DocumentsCategory[]> {
-    const documentsCategories = await this.prisma.documentCategory.findMany()
-    return documentsCategories
+    const documentsCategories = await this.prisma.documentCategory.findMany();
+    return documentsCategories;
   }
   async findOne(id: number): Promise<DocumentsCategory> {
     const documentCategory = await this.prisma.documentCategory.findUnique({
       where: { id },
-    })
-    return documentCategory
+    });
+    return documentCategory;
   }
   async update(
     id: number,
@@ -43,13 +45,13 @@ export class PrismaDocumentsCategoriesRepository
         documentType,
         codeFormat,
       },
-    })
-    return updatedDocumentCategory
+    });
+    return updatedDocumentCategory;
   }
   async remove(id: number): Promise<DocumentsCategory> {
     const deletedDocumentCategory = await this.prisma.documentCategory.delete({
       where: { id },
-    })
-    return deletedDocumentCategory
+    });
+    return deletedDocumentCategory;
   }
 }
