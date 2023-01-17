@@ -144,3 +144,13 @@ enum DocumentStatus {
   OBSOLETE
   INATIVE
 }
+
+model ProviderCategory {
+  id                            Int      @id @default(autoincrement())
+  name                          String   @unique
+  requiredInitialQualification  Boolean  @default(false)
+  requiredPeriodicQualification Boolean  @default(false)
+  periodicCheck                 Boolean  @default(false)
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+}

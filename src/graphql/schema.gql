@@ -55,6 +55,13 @@ input CreatePositionInput {
   version: Int!
 }
 
+input CreateProvidersCategoryInput {
+  name: String!
+  periodicCheck: Boolean
+  requiredInitialQualification: Boolean
+  requiredPeriodicQualification: Boolean
+}
+
 input CreateUnitInput {
   email: String
   name: String!
@@ -132,6 +139,7 @@ type Mutation {
   createDocumentsCategory(createDocumentsCategoryInput: CreateDocumentsCategoryInput!): DocumentsCategory!
   createPosition(createPositionInput: CreatePositionInput!): Position!
   createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
+  createProvidersCategory(createProvidersCategoryInput: CreateProvidersCategoryInput!): ProvidersCategory!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeCollaborator(id: Int!): Collaborator!
   removeDepartment(id: Int!): Department!
@@ -139,12 +147,14 @@ type Mutation {
   removeDocumentsCategory(id: Int!): DocumentsCategory!
   removePosition(id: Int!): Position!
   removePositionCategory(id: Int!): PositionCategory!
+  removeProvidersCategory(id: Int!): ProvidersCategory!
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   updateDocumentsCategory(updateDocumentsCategoryInput: UpdateDocumentsCategoryInput!): DocumentsCategory!
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
+  updateProvidersCategory(updateProvidersCategoryInput: UpdateProvidersCategoryInput!): ProvidersCategory!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
   uploadFile: Uploads!
 }
@@ -173,6 +183,16 @@ type PositionCategory {
   positions: [ResolvePositions!]
 }
 
+type ProvidersCategory {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  periodicCheck: Boolean
+  requiredInitialQualification: Boolean
+  requiredPeriodicQualification: Boolean
+  updatedAt: DateTime
+}
+
 type Query {
   collaborator(id: Int!): Collaborator!
   collaborators: [Collaborator!]!
@@ -186,6 +206,8 @@ type Query {
   positionCategories: [PositionCategory!]!
   positionCategory(id: Int!): PositionCategory!
   positions: [Position!]!
+  providersCategories: [ProvidersCategory!]!
+  providersCategory(id: Int!): ProvidersCategory!
   unit(id: Int!): Unit!
   units: [Unit!]!
 }
@@ -310,6 +332,14 @@ input UpdatePositionInput {
   requiredQualifications: String
   revisionAt: DateTime
   version: Int
+}
+
+input UpdateProvidersCategoryInput {
+  id: Int!
+  name: String
+  periodicCheck: Boolean
+  requiredInitialQualification: Boolean
+  requiredPeriodicQualification: Boolean
 }
 
 input UpdateUnitInput {

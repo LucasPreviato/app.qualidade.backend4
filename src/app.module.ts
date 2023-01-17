@@ -1,22 +1,23 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { Module } from '@nestjs/common'
-import { WinstonModule } from 'nest-winston'
-import * as winston from 'winston'
-import { GraphQLModule } from '@nestjs/graphql'
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
-import { join } from 'path'
-import { AppService } from './app.service'
-import { PrismaModule } from './prisma/prisma.module'
-import { AppController } from './app.controller'
-import { DepartmentsModule } from './departments/departments.module'
-import { UnitsModule } from './units/units.module'
-import { CollaboratorsModule } from './collaborators/collaborators.module'
-import { PositionCategoriesModule } from './position-categories/position-categories.module'
-import { PositionsModule } from './positions/positions.module'
-import { DocumentsModule } from './documents/documents.module'
-import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
-import { S3Module } from 'nestjs-s3'
-import { UploadsModule } from './uploads/uploads.module'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { join } from 'path';
+import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { AppController } from './app.controller';
+import { DepartmentsModule } from './departments/departments.module';
+import { UnitsModule } from './units/units.module';
+import { CollaboratorsModule } from './collaborators/collaborators.module';
+import { PositionCategoriesModule } from './position-categories/position-categories.module';
+import { PositionsModule } from './positions/positions.module';
+import { DocumentsModule } from './documents/documents.module';
+import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module';
+import { S3Module } from 'nestjs-s3';
+import { UploadsModule } from './uploads/uploads.module';
+import { ProvidersCategoriesModule } from './providers-categories/providers-categories.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { UploadsModule } from './uploads/uploads.module'
     DocumentsModule,
     DocumentsCategoriesModule,
     UploadsModule,
+    ProvidersCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
