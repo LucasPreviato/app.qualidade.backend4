@@ -62,6 +62,12 @@ input CreateProvidersCategoryInput {
   requiredPeriodicQualification: Boolean
 }
 
+input CreateQuestionsinitialqualificationInput {
+  providersCategoryId: Int!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
+}
+
 input CreateUnitInput {
   email: String
   name: String!
@@ -140,6 +146,7 @@ type Mutation {
   createPosition(createPositionInput: CreatePositionInput!): Position!
   createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
   createProvidersCategory(createProvidersCategoryInput: CreateProvidersCategoryInput!): ProvidersCategory!
+  createQuestionsinitialqualification(createQuestionsinitialqualificationInput: CreateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeCollaborator(id: Int!): Collaborator!
   removeDepartment(id: Int!): Department!
@@ -148,6 +155,7 @@ type Mutation {
   removePosition(id: Int!): Position!
   removePositionCategory(id: Int!): PositionCategory!
   removeProvidersCategory(id: Int!): ProvidersCategory!
+  removeQuestionsinitialqualification(id: Int!): QuestionsInitialQualification!
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
@@ -155,6 +163,7 @@ type Mutation {
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
   updateProvidersCategory(updateProvidersCategoryInput: UpdateProvidersCategoryInput!): ProvidersCategory!
+  updateQuestionsinitialqualification(updateQuestionsinitialqualificationInput: UpdateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
   uploadFile: Uploads!
 }
@@ -188,6 +197,7 @@ type ProvidersCategory {
   id: Int!
   name: String!
   periodicCheck: Boolean
+  questionInitialQualification: [ResolveQuestionsinitialqualifications!]
   requiredInitialQualification: Boolean
   requiredPeriodicQualification: Boolean
   updatedAt: DateTime
@@ -208,8 +218,19 @@ type Query {
   positions: [Position!]!
   providersCategories: [ProvidersCategory!]!
   providersCategory(id: Int!): ProvidersCategory!
+  questionsinitialqualification(id: Int!): QuestionsInitialQualification!
+  questionsinitialqualifications: [QuestionsInitialQualification!]!
   unit(id: Int!): Unit!
   units: [Unit!]!
+}
+
+type QuestionsInitialQualification {
+  createdAt: DateTime!
+  id: Int!
+  providerCategory: ResolveProvidersCategories!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion!
+  updatedAt: DateTime!
 }
 
 type ResolveCollaborators {
@@ -272,11 +293,34 @@ type ResolvePositions {
   version: Int!
 }
 
+type ResolveProvidersCategories {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  periodicCheck: Boolean
+  requiredInitialQualification: Boolean
+  requiredPeriodicQualification: Boolean
+  updatedAt: DateTime
+}
+
+type ResolveQuestionsinitialqualifications {
+  createdAt: DateTime!
+  id: Int!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion!
+  updatedAt: DateTime!
+}
+
 type ResolveUnit {
   email: String
   id: Int!
   name: String!
   phone: String
+}
+
+enum TypeOfAnswerQuestion {
+  MULTIPLE_CHOICE
+  OBJECTIVE
 }
 
 type Unit {
@@ -340,6 +384,13 @@ input UpdateProvidersCategoryInput {
   periodicCheck: Boolean
   requiredInitialQualification: Boolean
   requiredPeriodicQualification: Boolean
+}
+
+input UpdateQuestionsinitialqualificationInput {
+  id: Int!
+  providersCategoryId: Int
+  question: String
+  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
 }
 
 input UpdateUnitInput {

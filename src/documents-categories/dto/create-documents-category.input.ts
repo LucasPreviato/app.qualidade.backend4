@@ -1,15 +1,15 @@
-import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql'
-import { DocumentCodeFormat, DocumentType } from '@prisma/client'
+import { InputType, Field, registerEnumType } from '@nestjs/graphql';
+import { DocumentCodeFormat, DocumentType } from '@prisma/client';
 
-registerEnumType(DocumentType, { name: 'DocumentType' })
-registerEnumType(DocumentCodeFormat, { name: 'DocumentCodeFormat' })
+registerEnumType(DocumentType, { name: 'DocumentType' });
+registerEnumType(DocumentCodeFormat, { name: 'DocumentCodeFormat' });
 
 @InputType()
 export class CreateDocumentsCategoryInput {
   @Field(() => String)
-  name: string
+  name: string;
   @Field(() => DocumentType, { nullable: true })
-  documentType?: DocumentType
+  documentType?: DocumentType;
   @Field(() => DocumentCodeFormat, { defaultValue: 'SIMPLE' })
-  codeFormat: DocumentCodeFormat
+  codeFormat: DocumentCodeFormat;
 }

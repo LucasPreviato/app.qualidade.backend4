@@ -146,11 +146,34 @@ enum DocumentStatus {
 }
 
 model ProviderCategory {
-  id                            Int      @id @default(autoincrement())
-  name                          String   @unique
-  requiredInitialQualification  Boolean  @default(false)
-  requiredPeriodicQualification Boolean  @default(false)
-  periodicCheck                 Boolean  @default(false)
-  createdAt                     DateTime @default(now())
-  updatedAt                     DateTime @updatedAt
+  id                            Int     @id @default(autoincrement())
+  name                          String  @unique
+  requiredInitialQualification  Boolean @default(false)
+  requiredPeriodicQualification Boolean @default(false)
+  periodicCheck                 Boolean @default(false)
+
+  QuestionsInitialQualification QuestionsInitialQualification[]
+  createdAt                     DateTime                        @default(now())
+  updatedAt                     DateTime                        @updatedAt
+
+  @@map("provider_categories")
+}
+
+model QuestionsInitialQualification {
+  id       Int    @id @default(autoincrement())
+  question String
+
+  providerCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerCategoryId Int
+  typeOfAnswer TypeOfAnswerQuestion @default(OBJECTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("questions_initial_qualification")
+}
+
+enum TypeOfAnswerQuestion {
+  OBJECTIVE
+  MULTIPLE_CHOICE
 }

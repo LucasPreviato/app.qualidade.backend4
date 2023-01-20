@@ -4,31 +4,31 @@ import {
   registerEnumType,
   ObjectType,
   OmitType,
-} from '@nestjs/graphql'
-import { ResolveDocuments } from 'src/documents/entities/document.entity'
-import { DocumentCodeFormat, DocumentType } from '@prisma/client'
+} from '@nestjs/graphql';
+import { ResolveDocuments } from 'src/documents/entities/document.entity';
+import { DocumentCodeFormat, DocumentType } from '@prisma/client';
 
 registerEnumType(DocumentType, {
   name: 'DocumentType',
-})
+});
 registerEnumType(DocumentCodeFormat, {
   name: 'DocumentCodeFormat',
-})
+});
 
 @ObjectType()
 export class DocumentsCategory {
   @Field(() => Int)
-  id: number
+  id: number;
   @Field(() => String)
-  name: string
+  name: string;
   @Field(() => Date)
-  createdAt: Date
+  createdAt: Date;
   @Field(() => DocumentType)
-  documentType: DocumentType
+  documentType: DocumentType;
   @Field(() => DocumentCodeFormat, { defaultValue: 'SIMPLE' })
-  codeFormat: DocumentCodeFormat
+  codeFormat: DocumentCodeFormat;
   @Field(() => [ResolveDocuments], { nullable: true })
-  documents?: ResolveDocuments[]
+  documents?: ResolveDocuments[];
 }
 
 @ObjectType()
