@@ -55,11 +55,36 @@ input CreatePositionInput {
   version: Int!
 }
 
+input CreateProviderInput {
+  address: String
+  city: String
+  cnpj: String
+  contactName: String
+  crm: String
+  departmentId: Int!
+  district: String
+  email: String
+  name: String!
+  phone: String
+  providerCategoryId: Int!
+  providerCritical: Boolean!
+  state: String
+  tradeName: String
+  website: String
+  zipCode: String
+}
+
 input CreateProvidersCategoryInput {
   name: String!
   periodicCheck: Boolean
   requiredInitialQualification: Boolean
   requiredPeriodicQualification: Boolean
+}
+
+input CreateQuestionsPeriodicQualificationInput {
+  providersCategoryId: Int!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
 }
 
 input CreateQuestionsinitialqualificationInput {
@@ -145,7 +170,9 @@ type Mutation {
   createDocumentsCategory(createDocumentsCategoryInput: CreateDocumentsCategoryInput!): DocumentsCategory!
   createPosition(createPositionInput: CreatePositionInput!): Position!
   createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
+  createProvider(createProviderInput: CreateProviderInput!): Provider!
   createProvidersCategory(createProvidersCategoryInput: CreateProvidersCategoryInput!): ProvidersCategory!
+  createQuestionsPeriodicQualification(createQuestionsPeriodicQualificationInput: CreateQuestionsPeriodicQualificationInput!): QuestionsPeriodicQualification!
   createQuestionsinitialqualification(createQuestionsinitialqualificationInput: CreateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeCollaborator(id: Int!): Collaborator!
@@ -154,7 +181,9 @@ type Mutation {
   removeDocumentsCategory(id: Int!): DocumentsCategory!
   removePosition(id: Int!): Position!
   removePositionCategory(id: Int!): PositionCategory!
+  removeProvider(id: Int!): Provider!
   removeProvidersCategory(id: Int!): ProvidersCategory!
+  removeQuestionsPeriodicQualification(id: Int!): QuestionsPeriodicQualification!
   removeQuestionsinitialqualification(id: Int!): QuestionsInitialQualification!
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
@@ -162,7 +191,9 @@ type Mutation {
   updateDocumentsCategory(updateDocumentsCategoryInput: UpdateDocumentsCategoryInput!): DocumentsCategory!
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
+  updateProvider(updateProviderInput: UpdateProviderInput!): Provider!
   updateProvidersCategory(updateProvidersCategoryInput: UpdateProvidersCategoryInput!): ProvidersCategory!
+  updateQuestionsPeriodicQualification(updateQuestionsPeriodicQualificationInput: UpdateQuestionsPeriodicQualificationInput!): QuestionsPeriodicQualification!
   updateQuestionsinitialqualification(updateQuestionsinitialqualificationInput: UpdateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
   uploadFile: Uploads!
@@ -192,12 +223,35 @@ type PositionCategory {
   positions: [ResolvePositions!]
 }
 
+type Provider {
+  ProviderCategory: ResolveProvidersCategories!
+  address: String
+  city: String
+  cnpj: String
+  contactName: String
+  createdAt: DateTime
+  crm: String
+  department: ResolveDepartments!
+  district: String
+  email: String
+  id: Int!
+  name: String!
+  phone: String
+  providerCritical: Boolean!
+  state: String
+  tradeName: String
+  updatedAt: DateTime
+  website: String
+  zipCode: String
+}
+
 type ProvidersCategory {
   createdAt: DateTime!
   id: Int!
   name: String!
   periodicCheck: Boolean
-  questionInitialQualification: [ResolveQuestionsinitialqualifications!]
+  questionsInitialQualification: [ResolveQuestionsinitialqualifications!]
+  questionsPeriodicQualification: [ResolveQuestionsPeriodicQualifications!]
   requiredInitialQualification: Boolean
   requiredPeriodicQualification: Boolean
   updatedAt: DateTime
@@ -216,8 +270,12 @@ type Query {
   positionCategories: [PositionCategory!]!
   positionCategory(id: Int!): PositionCategory!
   positions: [Position!]!
+  provider(id: Int!): Provider!
+  providers: [Provider!]!
   providersCategories: [ProvidersCategory!]!
   providersCategory(id: Int!): ProvidersCategory!
+  questionsPeriodicQualification(id: Int!): QuestionsPeriodicQualification!
+  questionsPeriodicQualifications: [QuestionsPeriodicQualification!]!
   questionsinitialqualification(id: Int!): QuestionsInitialQualification!
   questionsinitialqualifications: [QuestionsInitialQualification!]!
   unit(id: Int!): Unit!
@@ -225,6 +283,15 @@ type Query {
 }
 
 type QuestionsInitialQualification {
+  createdAt: DateTime!
+  id: Int!
+  providerCategory: ResolveProvidersCategories!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion!
+  updatedAt: DateTime!
+}
+
+type QuestionsPeriodicQualification {
   createdAt: DateTime!
   id: Int!
   providerCategory: ResolveProvidersCategories!
@@ -303,6 +370,14 @@ type ResolveProvidersCategories {
   updatedAt: DateTime
 }
 
+type ResolveQuestionsPeriodicQualifications {
+  createdAt: DateTime!
+  id: Int!
+  question: String!
+  typeOfAnswer: TypeOfAnswerQuestion!
+  updatedAt: DateTime!
+}
+
 type ResolveQuestionsinitialqualifications {
   createdAt: DateTime!
   id: Int!
@@ -378,12 +453,39 @@ input UpdatePositionInput {
   version: Int
 }
 
+input UpdateProviderInput {
+  address: String
+  city: String
+  cnpj: String
+  contactName: String
+  crm: String
+  departmentId: Int
+  district: String
+  email: String
+  id: Int!
+  name: String
+  phone: String
+  providerCategoryId: Int
+  providerCritical: Boolean
+  state: String
+  tradeName: String
+  website: String
+  zipCode: String
+}
+
 input UpdateProvidersCategoryInput {
   id: Int!
   name: String
   periodicCheck: Boolean
   requiredInitialQualification: Boolean
   requiredPeriodicQualification: Boolean
+}
+
+input UpdateQuestionsPeriodicQualificationInput {
+  id: Int!
+  providersCategoryId: Int
+  question: String
+  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
 }
 
 input UpdateQuestionsinitialqualificationInput {
