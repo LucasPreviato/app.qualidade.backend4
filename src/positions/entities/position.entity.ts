@@ -30,12 +30,12 @@ export class Position {
   createdAt: Date;
   @Field(() => ResolvePositionCategories)
   positionCategory: ResolvePositionCategories;
-  @Field(() => ResolveCollaborators)
+  @Field(() => ResolveCollaborators, { nullable: true })
   collaborator?: ResolveCollaborators;
 }
 
 @ObjectType()
 export class ResolvePositions extends OmitType(Position, [
   'positionCategory',
-  'collaborator'
+  'collaborator',
 ] as const) {}

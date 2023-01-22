@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { QuestionsinitialqualificationsService } from './questionsinitialqualifications.service';
+import { QuestionsinitialqualificationsService } from './questions-initial-qualifications.service';
 import { QuestionsInitialQualification } from './entities/questions-initial-qualification.entity';
 import { CreateQuestionsinitialqualificationInput } from './dto/create-questions-initial-qualification.input';
 import { UpdateQuestionsinitialqualificationInput } from './dto/update-questions-initial-qualification.input';

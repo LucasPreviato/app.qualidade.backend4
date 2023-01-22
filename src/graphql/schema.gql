@@ -170,7 +170,7 @@ type Mutation {
 
 type Position {
   alterations: String!
-  collaborator: ResolveCollaborators!
+  collaborator: ResolveCollaborators
   createdAt: DateTime!
   desiredEducation: String
   desiredExperience: String

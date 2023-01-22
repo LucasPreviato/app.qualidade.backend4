@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int, OmitType } from '@nestjs/graphql';
 import { ResolveQuestionsinitialqualifications } from 'src/questions-initial-qualifications/entities/questions-initial-qualification.entity';
+import { ResolveQuestionsPeriodicQualifications } from 'src/questions-periodic-qualifications/entities/questions-periodic-qualification.entity';
 
 @ObjectType()
 export class ProvidersCategory {
@@ -18,10 +19,13 @@ export class ProvidersCategory {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date;
   @Field(() => [ResolveQuestionsinitialqualifications], { nullable: true })
-  questionInitialQualification?: ResolveQuestionsinitialqualifications[];
+  questionsInitialQualification?: ResolveQuestionsinitialqualifications[];
+  @Field(() => [ResolveQuestionsPeriodicQualifications], { nullable: true })
+  questionsPeriodicQualification?: ResolveQuestionsPeriodicQualifications[];
 }
 
 @ObjectType()
 export class ResolveProvidersCategories extends OmitType(ProvidersCategory, [
-  'questionInitialQualification',
+  'questionsInitialQualification',
+  'questionsPeriodicQualification',
 ] as const) {}
