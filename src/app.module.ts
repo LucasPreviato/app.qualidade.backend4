@@ -17,10 +17,6 @@ import { DocumentsModule } from './documents/documents.module';
 import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module';
 import { S3Module } from 'nestjs-s3';
 import { UploadsModule } from './uploads/uploads.module';
-import { ProvidersCategoriesModule } from './providers-categories/providers-categories.module';
-import { QuestionsinitialqualificationsModule } from './questions-initial-qualifications/questions-initial-qualification.module';
-import { QuestionsPeriodicQualificationsModule } from './questions-periodic-qualifications/questions-periodic-qualifications.module';
-import { ProvidersModule } from './providers/providers.module';
 
 @Module({
   imports: [
@@ -63,10 +59,6 @@ import { ProvidersModule } from './providers/providers.module';
     DocumentsModule,
     DocumentsCategoriesModule,
     UploadsModule,
-    ProvidersCategoriesModule,
-    QuestionsinitialqualificationsModule,
-    QuestionsPeriodicQualificationsModule,
-    ProvidersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

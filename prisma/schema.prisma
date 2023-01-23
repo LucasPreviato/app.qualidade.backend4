@@ -151,79 +151,99 @@ enum DocumentStatus {
 }
 
 model Provider {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
-  tradeName String?
-  address   String?
-  district  String?
-  city      String?
-  state     String?
-  zipCode   String?
-  cnpj      String?
-  crm       String?
-
+  id               Int     @id @default(autoincrement())
+  name             String  @unique
+  tradeName        String?
+  address          String?
+  district         String?
+  city             String?
+  state            String?
+  zipCode          String?
+  cnpj             String?
+  crm              String?
   providerCritical Boolean @default(false)
-
-  contactName String?
-  email       String?
-  phone       String?
-  website     String?
+  contactName      String?
+  email            String?
+  phone            String?
+  website          String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  department         Department       @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  departmentId       Int
+  qualificationStatus QualificationStatus @default(PENDING)
+
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId Int
+
   ProviderCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id])
   providerCategoryId Int
+
+  InitialQualification InitialQualification[]
+}
+
+enum QualificationStatus {
+  PENDING
+  QUALIFIED
+  QUALIFIED_WITH_RESTRICTIONS
+  NOT_QUALIFIED
 }
 
 model ProviderCategory {
-  id                            Int     @id @default(autoincrement())
-  name                          String  @unique
-  requiredInitialQualification  Boolean @default(false)
-  requiredPeriodicQualification Boolean @default(false)
-  periodicCheck                 Boolean @default(false)
+  id                           Int     @id @default(autoincrement())
+  name                         String  @unique
+  requiresInitialQualification Boolean @default(false)
+  requiredPeriodicEvaluation   Boolean @default(false)
+  periodicCheck                Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  provider                       Provider[]
-  QuestionsInitialQualification  QuestionsInitialQualification[]
-  QuestionsPeriodicQualification QuestionsPeriodicQualification[]
+  provider                     Provider[]
+  InitialQualificationQuestion InitialQualificationQuestion[]
 
   @@map("provider_categories")
 }
 
-model QuestionsInitialQualification {
+model InitialQualificationQuestion {
   id       Int    @id @default(autoincrement())
   question String @unique
 
-  providerCategory   ProviderCategory     @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   providerCategoryId Int
-  typeOfAnswer       TypeOfAnswerQuestion @default(OBJECTIVE)
+
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  InitialQualification       InitialQualification[]
+  InitialQualificationAnswer InitialQualificationAnswer[]
+}
+
+model InitialQualificationAnswer {
+  id     Int                            @id @default(autoincrement())
+  answer InitialQualificationAnswerType @default(NOT_APPLICABLE)
+
+  initialQualificationQuestion   InitialQualificationQuestion @relation(fields: [initialQualificationQuestionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  initialQualificationQuestionId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("questions_initial_qualification")
 }
 
-model QuestionsPeriodicQualification {
-  id       Int    @id @default(autoincrement())
-  question String @unique
+enum InitialQualificationAnswerType {
+  YES
+  NO
+  NOT_APPLICABLE
+}
 
-  providerCategory   ProviderCategory     @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  providerCategoryId Int
-  typeOfAnswer       TypeOfAnswerQuestion @default(OBJECTIVE)
-
+model InitialQualification {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("questions_periodic_qualification")
-}
+  qualificationStatus QualificationStatus
 
-enum TypeOfAnswerQuestion {
-  OBJECTIVE
-  MULTIPLE_CHOICE
+  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerId Int
+
+  InitialQualificationQuestion   InitialQualificationQuestion @relation(fields: [initialQualificationQuestionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  initialQualificationQuestionId Int
 }
