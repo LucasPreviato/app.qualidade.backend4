@@ -17,6 +17,11 @@ import { DocumentsModule } from './documents/documents.module';
 import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module';
 import { S3Module } from 'nestjs-s3';
 import { UploadsModule } from './uploads/uploads.module';
+import { ProvidersModule } from './providers_resources/providers/providers.module';
+import { ProvidersCategoriesModule } from './providers_resources/providers-categories/providers-categories.module';
+import { InitialQualificationsModule } from './providers_resources/initial-qualifications/initial-qualifications.module';
+import { InitialQualificationQuestionsModule } from './providers_resources/initial-qualification-questions/initial-qualification-questions.module';
+import { InitialQualificationAnswersModule } from './providers_resources/initial-qualification-answers/initial-qualification-answers.module';
 
 @Module({
   imports: [
@@ -59,6 +64,11 @@ import { UploadsModule } from './uploads/uploads.module';
     DocumentsModule,
     DocumentsCategoriesModule,
     UploadsModule,
+    ProvidersModule,
+    ProvidersCategoriesModule,
+    InitialQualificationQuestionsModule,
+    InitialQualificationAnswersModule,
+    InitialQualificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
