@@ -22,6 +22,7 @@ import { ProvidersCategoriesModule } from './providers_resources/providers-categ
 import { InitialQualificationsModule } from './providers_resources/initial-qualifications/initial-qualifications.module';
 import { InitialQualificationQuestionsModule } from './providers_resources/initial-qualification-questions/initial-qualification-questions.module';
 import { InitialQualificationAnswersModule } from './providers_resources/initial-qualification-answers/initial-qualification-answers.module';
+import { InitialQualificationQuestionsTypesModule } from './providers_resources/initial-qualification-questions-types/initial-qualification-questions-types.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { InitialQualificationAnswersModule } from './providers_resources/initial
     InitialQualificationQuestionsModule,
     InitialQualificationAnswersModule,
     InitialQualificationsModule,
+    InitialQualificationQuestionsTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

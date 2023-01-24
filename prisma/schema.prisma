@@ -12,6 +12,7 @@ datasource db {
 
 generator erd {
   provider = "prisma-erd-generator"
+  theme    = "forest"
 }
 
 model Unit {
@@ -170,15 +171,15 @@ model Provider {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  qualificationStatus QualificationStatus @default(PENDING)
-
   department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   departmentId Int
 
   ProviderCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id])
   providerCategoryId Int
 
-  InitialQualification InitialQualification[]
+  InitialQualification InitialQualification?
+
+  @@map("providers")
 }
 
 enum QualificationStatus {
@@ -198,8 +199,8 @@ model ProviderCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  provider                     Provider[]
-  InitialQualificationQuestion InitialQualificationQuestion[]
+  provider                         Provider[]
+  InitialQualificationQuestionType InitialQualificationQuestionType[]
 
   @@map("provider_categories")
 }
@@ -208,13 +209,30 @@ model InitialQualificationQuestion {
   id       Int    @id @default(autoincrement())
   question String @unique
 
-  providerCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  providerCategoryId Int
+  createdAt                          DateTime                         @default(now())
+  updatedAt                          DateTime                         @updatedAt
+  initialQualificationQuestionType   InitialQualificationQuestionType @relation(fields: [initialQualificationQuestionTypeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  initialQualificationQuestionTypeId Int
+  initialQualification               InitialQualification             @relation(fields: [initialQualificationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  initialQualificationId             Int
+  InitialQualificationAnswer         InitialQualificationAnswer?
 
-  createdAt                  DateTime                     @default(now())
-  updatedAt                  DateTime                     @updatedAt
-  InitialQualification       InitialQualification[]
-  InitialQualificationAnswer InitialQualificationAnswer[]
+  @@map("initial_qualification_questions")
+}
+
+model InitialQualificationQuestionType {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ProviderCategory             ProviderCategory?              @relation(fields: [providerCategoryId], references: [id])
+  providerCategoryId           Int?
+  InitialQualification         InitialQualification?          @relation(fields: [initialQualificationId], references: [id])
+  initialQualificationId       Int?
+  InitialQualificationQuestion InitialQualificationQuestion[]
+
+  @@map("initial_qualification_question_types")
 }
 
 model InitialQualificationAnswer {
@@ -222,10 +240,12 @@ model InitialQualificationAnswer {
   answer InitialQualificationAnswerType @default(NOT_APPLICABLE)
 
   initialQualificationQuestion   InitialQualificationQuestion @relation(fields: [initialQualificationQuestionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  initialQualificationQuestionId Int
+  initialQualificationQuestionId Int                          @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("initial_qualification_answers")
 }
 
 enum InitialQualificationAnswerType {
@@ -242,8 +262,10 @@ model InitialQualification {
   qualificationStatus QualificationStatus
 
   provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  providerId Int
+  providerId Int      @unique
 
-  InitialQualificationQuestion   InitialQualificationQuestion @relation(fields: [initialQualificationQuestionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  initialQualificationQuestionId Int
+  InitialQualificationQuestion     InitialQualificationQuestion[]
+  InitialQualificationQuestionType InitialQualificationQuestionType[]
+
+  @@map("initial_qualifications")
 }
