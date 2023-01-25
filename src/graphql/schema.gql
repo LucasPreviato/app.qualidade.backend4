@@ -37,6 +37,26 @@ input CreateDocumentsCategoryInput {
   name: String!
 }
 
+input CreateInitialQualificationAnswerInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateInitialQualificationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateInitialQualificationQuestionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateInitialQualificationQuestionsTypeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreatePositionCategoryInput {
   name: String!
 }
@@ -61,15 +81,13 @@ input CreateProviderInput {
   cnpj: String
   contactName: String
   crm: String
-  departmentId: Int!
   district: String
   email: String
   name: String!
   phone: String
-  providerCategoryId: Int!
   providerCritical: Boolean!
   state: String
-  tradeName: String
+  tradeName: String!
   website: String
   zipCode: String
 }
@@ -77,20 +95,8 @@ input CreateProviderInput {
 input CreateProvidersCategoryInput {
   name: String!
   periodicCheck: Boolean
-  requiredInitialQualification: Boolean
-  requiredPeriodicQualification: Boolean
-}
-
-input CreateQuestionsPeriodicQualificationInput {
-  providersCategoryId: Int!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
-}
-
-input CreateQuestionsinitialqualificationInput {
-  providersCategoryId: Int!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
+  requiredPeriodicEvaluation: Boolean
+  requiresInitialQualification: Boolean
 }
 
 input CreateUnitInput {
@@ -164,37 +170,86 @@ type DocumentsCategory {
   name: String!
 }
 
+type InitialQualification {
+  createdAt: DateTime!
+  id: Int!
+  initialQualificationQuestions: [ResolveInitialQualificationQuestion!]!
+  initialQualificationQuestionsType: [ResolveInitialQualificationQuestionsType!]!
+  provider: ResolveProvider!
+  qualificationStatus: QualificationStatus!
+  updatedAt: DateTime!
+}
+
+type InitialQualificationAnswer {
+  answer: InitialQualificationAnswerType!
+  createdAt: DateTime!
+  id: Int!
+  initialQualificationQuestion: ResolveInitialQualificationQuestion!
+  updatedAt: DateTime!
+}
+
+enum InitialQualificationAnswerType {
+  NO
+  NOT_APPLICABLE
+  YES
+}
+
+type InitialQualificationQuestion {
+  createdAt: DateTime!
+  id: Int!
+  initialQualification: ResolveInitialQualification!
+  initialQualificationAnswer: [ResolveInitialQualificationAnswer!]!
+  initialQualificationQuestionsType: ResolveInitialQualificationQuestionsType!
+  question: String!
+  updatedAt: DateTime!
+}
+
+type InitialQualificationQuestionsType {
+  createdAt: DateTime!
+  id: Int!
+  initialQualification: ResolveInitialQualification!
+  initialQualificationQuestions: [ResolveInitialQualificationQuestion!]!
+  providerCategory: ResolveProvidersCategory!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   createCollaborator(createCollaboratorInput: CreateCollaboratorInput!): Collaborator!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   createDocumentsCategory(createDocumentsCategoryInput: CreateDocumentsCategoryInput!): DocumentsCategory!
+  createInitialQualification(createInitialQualificationInput: CreateInitialQualificationInput!): InitialQualification!
+  createInitialQualificationAnswer(createInitialQualificationAnswerInput: CreateInitialQualificationAnswerInput!): InitialQualificationAnswer!
+  createInitialQualificationQuestion(createInitialQualificationQuestionInput: CreateInitialQualificationQuestionInput!): InitialQualificationQuestion!
+  createInitialQualificationQuestionsType(createInitialQualificationQuestionsTypeInput: CreateInitialQualificationQuestionsTypeInput!): InitialQualificationQuestionsType!
   createPosition(createPositionInput: CreatePositionInput!): Position!
   createPositionCategory(createPositionCategoryInput: CreatePositionCategoryInput!): PositionCategory!
   createProvider(createProviderInput: CreateProviderInput!): Provider!
   createProvidersCategory(createProvidersCategoryInput: CreateProvidersCategoryInput!): ProvidersCategory!
-  createQuestionsPeriodicQualification(createQuestionsPeriodicQualificationInput: CreateQuestionsPeriodicQualificationInput!): QuestionsPeriodicQualification!
-  createQuestionsinitialqualification(createQuestionsinitialqualificationInput: CreateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   createUnit(createUnitInput: CreateUnitInput!): Unit!
   removeCollaborator(id: Int!): Collaborator!
   removeDepartment(id: Int!): Department!
   removeDocument(id: Int!): Document!
   removeDocumentsCategory(id: Int!): DocumentsCategory!
+  removeInitialQualification(id: Int!): InitialQualification!
+  removeInitialQualificationAnswer(id: Int!): InitialQualificationAnswer!
+  removeInitialQualificationQuestion(id: Int!): InitialQualificationQuestion!
+  removeInitialQualificationQuestionsType(id: Int!): InitialQualificationQuestionsType!
   removePosition(id: Int!): Position!
   removePositionCategory(id: Int!): PositionCategory!
   removeProvider(id: Int!): Provider!
   removeProvidersCategory(id: Int!): ProvidersCategory!
-  removeQuestionsPeriodicQualification(id: Int!): QuestionsPeriodicQualification!
-  removeQuestionsinitialqualification(id: Int!): QuestionsInitialQualification!
   removeUnit(id: Int!): Unit!
   updateCollaborator(updateCollaboratorInput: UpdateCollaboratorInput!): Collaborator!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   updateDocumentsCategory(updateDocumentsCategoryInput: UpdateDocumentsCategoryInput!): DocumentsCategory!
+  updateInitialQualification(updateInitialQualificationInput: UpdateInitialQualificationInput!): InitialQualification!
+  updateInitialQualificationAnswer(updateInitialQualificationAnswerInput: UpdateInitialQualificationAnswerInput!): InitialQualificationAnswer!
+  updateInitialQualificationQuestion(updateInitialQualificationQuestionInput: UpdateInitialQualificationQuestionInput!): InitialQualificationQuestion!
+  updateInitialQualificationQuestionsType(updateInitialQualificationQuestionsTypeInput: UpdateInitialQualificationQuestionsTypeInput!): InitialQualificationQuestionsType!
   updatePosition(updatePositionInput: UpdatePositionInput!): Position!
   updatePositionCategory(updatePositionCategoryInput: UpdatePositionCategoryInput!): PositionCategory!
   updateProvider(updateProviderInput: UpdateProviderInput!): Provider!
   updateProvidersCategory(updateProvidersCategoryInput: UpdateProvidersCategoryInput!): ProvidersCategory!
-  updateQuestionsPeriodicQualification(updateQuestionsPeriodicQualificationInput: UpdateQuestionsPeriodicQualificationInput!): QuestionsPeriodicQualification!
-  updateQuestionsinitialqualification(updateQuestionsinitialqualificationInput: UpdateQuestionsinitialqualificationInput!): QuestionsInitialQualification!
   updateUnit(updateUnitInput: UpdateUnitInput!): Unit!
   uploadFile: Uploads!
 }
@@ -224,7 +279,6 @@ type PositionCategory {
 }
 
 type Provider {
-  ProviderCategory: ResolveProvidersCategories!
   address: String
   city: String
   cnpj: String
@@ -235,26 +289,35 @@ type Provider {
   district: String
   email: String
   id: Int!
+  initialQualification: [ResolveInitialQualification!]!
   name: String!
   phone: String
   providerCritical: Boolean!
+  providersCategory: ResolveProvidersCategory!
   state: String
-  tradeName: String
+  tradeName: String!
   updatedAt: DateTime
   website: String
   zipCode: String
 }
 
 type ProvidersCategory {
-  createdAt: DateTime!
+  createdAt: DateTime
   id: Int!
+  initialQualificationQuestionsType: [ResolveInitialQualificationQuestionsType!]
   name: String!
   periodicCheck: Boolean
-  questionsInitialQualification: [ResolveQuestionsinitialqualifications!]
-  questionsPeriodicQualification: [ResolveQuestionsPeriodicQualifications!]
-  requiredInitialQualification: Boolean
-  requiredPeriodicQualification: Boolean
+  provider: [ResolveProvider!]
+  requiredPeriodicEvaluation: Boolean
+  requiresInitialQualification: Boolean
   updatedAt: DateTime
+}
+
+enum QualificationStatus {
+  NOT_QUALIFIED
+  PENDING
+  QUALIFIED
+  QUALIFIED_WITH_RESTRICTIONS
 }
 
 type Query {
@@ -266,6 +329,14 @@ type Query {
   documents: [Document!]!
   documentsCategories: [DocumentsCategory!]!
   documentsCategory(id: Int!): DocumentsCategory!
+  initialQualification(id: Int!): InitialQualification!
+  initialQualificationAnswer(id: Int!): InitialQualificationAnswer!
+  initialQualificationAnswers: [InitialQualificationAnswer!]!
+  initialQualificationQuestion(id: Int!): InitialQualificationQuestion!
+  initialQualificationQuestions: [InitialQualificationQuestion!]!
+  initialQualificationQuestionsType(id: Int!): InitialQualificationQuestionsType!
+  initialQualificationQuestionsTypes: [InitialQualificationQuestionsType!]!
+  initialQualifications: [InitialQualification!]!
   position(id: Int!): Position!
   positionCategories: [PositionCategory!]!
   positionCategory(id: Int!): PositionCategory!
@@ -274,30 +345,8 @@ type Query {
   providers: [Provider!]!
   providersCategories: [ProvidersCategory!]!
   providersCategory(id: Int!): ProvidersCategory!
-  questionsPeriodicQualification(id: Int!): QuestionsPeriodicQualification!
-  questionsPeriodicQualifications: [QuestionsPeriodicQualification!]!
-  questionsinitialqualification(id: Int!): QuestionsInitialQualification!
-  questionsinitialqualifications: [QuestionsInitialQualification!]!
   unit(id: Int!): Unit!
   units: [Unit!]!
-}
-
-type QuestionsInitialQualification {
-  createdAt: DateTime!
-  id: Int!
-  providerCategory: ResolveProvidersCategories!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion!
-  updatedAt: DateTime!
-}
-
-type QuestionsPeriodicQualification {
-  createdAt: DateTime!
-  id: Int!
-  providerCategory: ResolveProvidersCategories!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion!
-  updatedAt: DateTime!
 }
 
 type ResolveCollaborators {
@@ -339,6 +388,33 @@ type ResolveDocumentsCategory {
   name: String!
 }
 
+type ResolveInitialQualification {
+  createdAt: DateTime!
+  id: Int!
+  qualificationStatus: QualificationStatus!
+  updatedAt: DateTime!
+}
+
+type ResolveInitialQualificationAnswer {
+  answer: InitialQualificationAnswerType!
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+}
+
+type ResolveInitialQualificationQuestion {
+  createdAt: DateTime!
+  id: Int!
+  question: String!
+  updatedAt: DateTime!
+}
+
+type ResolveInitialQualificationQuestionsType {
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+}
+
 type ResolvePositionCategories {
   createdAt: DateTime!
   id: Int!
@@ -360,30 +436,34 @@ type ResolvePositions {
   version: Int!
 }
 
-type ResolveProvidersCategories {
-  createdAt: DateTime!
+type ResolveProvider {
+  address: String
+  city: String
+  cnpj: String
+  contactName: String
+  createdAt: DateTime
+  crm: String
+  district: String
+  email: String
+  id: Int!
+  name: String!
+  phone: String
+  providerCritical: Boolean!
+  state: String
+  tradeName: String!
+  updatedAt: DateTime
+  website: String
+  zipCode: String
+}
+
+type ResolveProvidersCategory {
+  createdAt: DateTime
   id: Int!
   name: String!
   periodicCheck: Boolean
-  requiredInitialQualification: Boolean
-  requiredPeriodicQualification: Boolean
+  requiredPeriodicEvaluation: Boolean
+  requiresInitialQualification: Boolean
   updatedAt: DateTime
-}
-
-type ResolveQuestionsPeriodicQualifications {
-  createdAt: DateTime!
-  id: Int!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion!
-  updatedAt: DateTime!
-}
-
-type ResolveQuestionsinitialqualifications {
-  createdAt: DateTime!
-  id: Int!
-  question: String!
-  typeOfAnswer: TypeOfAnswerQuestion!
-  updatedAt: DateTime!
 }
 
 type ResolveUnit {
@@ -391,11 +471,6 @@ type ResolveUnit {
   id: Int!
   name: String!
   phone: String
-}
-
-enum TypeOfAnswerQuestion {
-  MULTIPLE_CHOICE
-  OBJECTIVE
 }
 
 type Unit {
@@ -433,6 +508,30 @@ input UpdateDocumentsCategoryInput {
   name: String
 }
 
+input UpdateInitialQualificationAnswerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateInitialQualificationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateInitialQualificationQuestionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateInitialQualificationQuestionsTypeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdatePositionCategoryInput {
   id: Int!
   name: String
@@ -459,13 +558,11 @@ input UpdateProviderInput {
   cnpj: String
   contactName: String
   crm: String
-  departmentId: Int
   district: String
   email: String
   id: Int!
   name: String
   phone: String
-  providerCategoryId: Int
   providerCritical: Boolean
   state: String
   tradeName: String
@@ -477,22 +574,8 @@ input UpdateProvidersCategoryInput {
   id: Int!
   name: String
   periodicCheck: Boolean
-  requiredInitialQualification: Boolean
-  requiredPeriodicQualification: Boolean
-}
-
-input UpdateQuestionsPeriodicQualificationInput {
-  id: Int!
-  providersCategoryId: Int
-  question: String
-  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
-}
-
-input UpdateQuestionsinitialqualificationInput {
-  id: Int!
-  providersCategoryId: Int
-  question: String
-  typeOfAnswer: TypeOfAnswerQuestion = OBJECTIVE
+  requiredPeriodicEvaluation: Boolean
+  requiresInitialQualification: Boolean
 }
 
 input UpdateUnitInput {

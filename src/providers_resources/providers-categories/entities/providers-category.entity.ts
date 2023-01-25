@@ -8,20 +8,20 @@ export class ProvidersCategory {
   id: number;
   @Field()
   name: string;
-  @Field()
-  requiresInitialQualification: boolean;
-  @Field()
-  requiredPeriodicQualification: boolean;
-  @Field()
-  periodicCheck: boolean;
-  @Field()
-  createdAt: Date;
-  @Field()
-  updatedAt: Date;
-  @Field(() => [ResolveProvider])
-  provider: ResolveProvider[];
-  @Field(() => [ResolveInitialQualificationQuestionsType])
-  initialQualificationQuestionsType: ResolveInitialQualificationQuestionsType[];
+  @Field(() => Boolean, { nullable: true })
+  requiresInitialQualification?: boolean;
+  @Field(() => Boolean, { nullable: true })
+  requiredPeriodicEvaluation?: boolean;
+  @Field(() => Boolean, { nullable: true })
+  periodicCheck?: boolean;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date;
+  @Field(() => [ResolveProvider], { nullable: true })
+  provider?: ResolveProvider[];
+  @Field(() => [ResolveInitialQualificationQuestionsType], { nullable: true })
+  initialQualificationQuestionsType?: ResolveInitialQualificationQuestionsType[];
 }
 @ObjectType()
 export class ResolveProvidersCategory extends OmitType(ProvidersCategory, [
