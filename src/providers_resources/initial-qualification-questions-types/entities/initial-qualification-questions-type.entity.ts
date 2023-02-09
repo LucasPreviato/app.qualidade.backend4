@@ -8,9 +8,9 @@ export class InitialQualificationQuestionsType {
   @Field(() => Int)
   id: number;
   @Field(() => Date)
-  createdAt: Date;
+  createdAt?: Date;
   @Field(() => Date)
-  updatedAt: Date;
+  updatedAt?: Date;
   @Field(() => ResolveProvidersCategory)
   providerCategory: ResolveProvidersCategory;
   @Field(() => ResolveInitialQualification)

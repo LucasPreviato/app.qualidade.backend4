@@ -13,6 +13,7 @@ datasource db {
 generator erd {
   provider = "prisma-erd-generator"
   theme    = "forest"
+  includeRelationsFromFields = true
 }
 
 model Unit {
