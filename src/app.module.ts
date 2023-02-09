@@ -1,22 +1,28 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { Module } from '@nestjs/common'
-import { WinstonModule } from 'nest-winston'
-import * as winston from 'winston'
-import { GraphQLModule } from '@nestjs/graphql'
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
-import { join } from 'path'
-import { AppService } from './app.service'
-import { PrismaModule } from './prisma/prisma.module'
-import { AppController } from './app.controller'
-import { DepartmentsModule } from './departments/departments.module'
-import { UnitsModule } from './units/units.module'
-import { CollaboratorsModule } from './collaborators/collaborators.module'
-import { PositionCategoriesModule } from './position-categories/position-categories.module'
-import { PositionsModule } from './positions/positions.module'
-import { DocumentsModule } from './documents/documents.module'
-import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module'
-import { S3Module } from 'nestjs-s3'
-import { UploadsModule } from './uploads/uploads.module'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { join } from 'path';
+import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { AppController } from './app.controller';
+import { DepartmentsModule } from './departments/departments.module';
+import { UnitsModule } from './units/units.module';
+import { CollaboratorsModule } from './collaborators/collaborators.module';
+import { PositionCategoriesModule } from './position-categories/position-categories.module';
+import { PositionsModule } from './positions/positions.module';
+import { DocumentsModule } from './documents/documents.module';
+import { DocumentsCategoriesModule } from './documents-categories/documents-categories.module';
+import { S3Module } from 'nestjs-s3';
+import { UploadsModule } from './uploads/uploads.module';
+import { ProvidersModule } from './providers_resources/providers/providers.module';
+import { ProvidersCategoriesModule } from './providers_resources/providers-categories/providers-categories.module';
+import { InitialQualificationsModule } from './providers_resources/initial-qualifications/initial-qualifications.module';
+import { InitialQualificationQuestionsModule } from './providers_resources/initial-qualification-questions/initial-qualification-questions.module';
+import { InitialQualificationAnswersModule } from './providers_resources/initial-qualification-answers/initial-qualification-answers.module';
+import { InitialQualificationQuestionsTypesModule } from './providers_resources/initial-qualification-questions-types/initial-qualification-questions-types.module';
 
 @Module({
   imports: [
@@ -59,6 +65,12 @@ import { UploadsModule } from './uploads/uploads.module'
     DocumentsModule,
     DocumentsCategoriesModule,
     UploadsModule,
+    ProvidersModule,
+    ProvidersCategoriesModule,
+    InitialQualificationQuestionsModule,
+    InitialQualificationAnswersModule,
+    InitialQualificationsModule,
+    InitialQualificationQuestionsTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
