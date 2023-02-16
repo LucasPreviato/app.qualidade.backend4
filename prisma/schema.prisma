@@ -11,8 +11,8 @@ datasource db {
 }
 
 generator erd {
-  provider = "prisma-erd-generator"
-  theme    = "forest"
+  provider                   = "prisma-erd-generator"
+  theme                      = "forest"
   includeRelationsFromFields = true
 }
 
@@ -39,7 +39,6 @@ model Department {
   unitId       Int
   Collaborator Collaborator[]
   Document     Document[]
-  Provider     Provider[]
 }
 
 model Collaborator {
@@ -152,121 +151,54 @@ enum DocumentStatus {
   INATIVE
 }
 
+model ProviderCategory {
+  id                        Int     @id @default(autoincrement())
+  name                      String  @unique
+  needsInitialQualification Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  provider                      Provider[]
+  QuestionsInitialQualification QuestionsInitialQualification[]
+}
+
 model Provider {
-  id               Int     @id @default(autoincrement())
-  name             String  @unique
-  tradeName        String?
-  address          String?
-  district         String?
-  city             String?
-  state            String?
-  zipCode          String?
-  cnpj             String?
-  crm              String?
-  providerCritical Boolean @default(false)
-  contactName      String?
-  email            String?
-  phone            String?
-  website          String?
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  email     String?
+  phone     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  providerCategory      ProviderCategory        @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerCategoryId    Int
+  ProviderQualification ProviderQualification[]
+}
 
-  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  departmentId Int
+model ProviderQualification {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-  ProviderCategory   ProviderCategory @relation(fields: [providerCategoryId], references: [id])
-  providerCategoryId Int
+  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerId Int
 
-  InitialQualification InitialQualification?
-
-  @@map("providers")
+  qualificationStatus QualificationStatus @default(PENDING)
 }
 
 enum QualificationStatus {
   PENDING
-  QUALIFIED
-  QUALIFIED_WITH_RESTRICTIONS
-  NOT_QUALIFIED
+  APPROVED
+  REJECTED
 }
 
-model ProviderCategory {
-  id                           Int     @id @default(autoincrement())
-  name                         String  @unique
-  requiresInitialQualification Boolean @default(false)
-  requiredPeriodicEvaluation   Boolean @default(false)
-  periodicCheck                Boolean @default(false)
+model QuestionsInitialQualification {
+  id        Int       @id @default(autoincrement())
+  question  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  provider                         Provider[]
-  InitialQualificationQuestionType InitialQualificationQuestionType[]
-
-  @@map("provider_categories")
-}
-
-model InitialQualificationQuestion {
-  id       Int    @id @default(autoincrement())
-  question String @unique
-
-  createdAt                          DateTime                         @default(now())
-  updatedAt                          DateTime                         @updatedAt
-  initialQualificationQuestionType   InitialQualificationQuestionType @relation(fields: [initialQualificationQuestionTypeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  initialQualificationQuestionTypeId Int
-  initialQualification               InitialQualification             @relation(fields: [initialQualificationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  initialQualificationId             Int
-  InitialQualificationAnswer         InitialQualificationAnswer?
-
-  @@map("initial_qualification_questions")
-}
-
-model InitialQualificationQuestionType {
-  id Int @id @default(autoincrement())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  ProviderCategory             ProviderCategory?              @relation(fields: [providerCategoryId], references: [id])
-  providerCategoryId           Int?
-  InitialQualification         InitialQualification?          @relation(fields: [initialQualificationId], references: [id])
-  initialQualificationId       Int?
-  InitialQualificationQuestion InitialQualificationQuestion[]
-
-  @@map("initial_qualification_question_types")
-}
-
-model InitialQualificationAnswer {
-  id     Int                            @id @default(autoincrement())
-  answer InitialQualificationAnswerType @default(NOT_APPLICABLE)
-
-  initialQualificationQuestion   InitialQualificationQuestion @relation(fields: [initialQualificationQuestionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  initialQualificationQuestionId Int                          @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("initial_qualification_answers")
-}
-
-enum InitialQualificationAnswerType {
-  YES
-  NO
-  NOT_APPLICABLE
-}
-
-model InitialQualification {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  qualificationStatus QualificationStatus
-
-  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  providerId Int      @unique
-
-  InitialQualificationQuestion     InitialQualificationQuestion[]
-  InitialQualificationQuestionType InitialQualificationQuestionType[]
-
-  @@map("initial_qualifications")
+  providerCategory      ProviderCategory        @relation(fields: [providerCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  providerCategoryId    Int
 }

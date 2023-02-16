@@ -1,5 +1,5 @@
-FROM node:16.16.0-slim
+# FROM node:16.16.0-slim
 
-WORKDIR /home/node/backend/app
+# WORKDIR /home/node/backend/app
 
-USER node
+# USER node

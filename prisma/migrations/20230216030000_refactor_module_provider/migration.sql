@@ -7,6 +7,9 @@ CREATE TYPE "DocumentCodeFormat" AS ENUM ('SIMPLE', 'NUMBERED_BY_DEPARTMENT', 'N
 -- CreateEnum
 CREATE TYPE "DocumentStatus" AS ENUM ('ELABORATION', 'REVISION', 'APPROVAL', 'APPROVED', 'REJECTED', 'OBSOLETE', 'INATIVE');
 
+-- CreateEnum
+CREATE TYPE "QualificationStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+
 -- CreateTable
 CREATE TABLE "Unit" (
     "id" SERIAL NOT NULL,
@@ -112,13 +115,47 @@ CREATE TABLE "DocumentCategory" (
 CREATE TABLE "ProviderCategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "requiredInitialQualification" BOOLEAN NOT NULL DEFAULT false,
-    "requiredPeriodicQualification" BOOLEAN NOT NULL DEFAULT false,
-    "periodicCheck" BOOLEAN NOT NULL DEFAULT false,
+    "needsInitialQualification" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "ProviderCategory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Provider" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT,
+    "phone" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+    "providerCategoryId" INTEGER NOT NULL,
+
+    CONSTRAINT "Provider_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ProviderQualification" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+    "providerId" INTEGER NOT NULL,
+    "questionsInitialQualificationId" INTEGER NOT NULL,
+    "qualificationStatus" "QualificationStatus" NOT NULL DEFAULT 'PENDING',
+
+    CONSTRAINT "ProviderQualification_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "QuestionsInitialQualification" (
+    "id" SERIAL NOT NULL,
+    "question" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+    "providerCategoryId" INTEGER NOT NULL,
+
+    CONSTRAINT "QuestionsInitialQualification_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -147,6 +184,9 @@ CREATE UNIQUE INDEX "DocumentCategory_name_key" ON "DocumentCategory"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProviderCategory_name_key" ON "ProviderCategory"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Provider_name_key" ON "Provider"("name");
 
 -- AddForeignKey
 ALTER TABLE "Department" ADD CONSTRAINT "Department_unitId_fkey" FOREIGN KEY ("unitId") REFERENCES "Unit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -180,3 +220,15 @@ ALTER TABLE "Document" ADD CONSTRAINT "Document_departmentId_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "Document" ADD CONSTRAINT "Document_documentCategoryId_fkey" FOREIGN KEY ("documentCategoryId") REFERENCES "DocumentCategory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Provider" ADD CONSTRAINT "Provider_providerCategoryId_fkey" FOREIGN KEY ("providerCategoryId") REFERENCES "ProviderCategory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProviderQualification" ADD CONSTRAINT "ProviderQualification_providerId_fkey" FOREIGN KEY ("providerId") REFERENCES "Provider"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProviderQualification" ADD CONSTRAINT "ProviderQualification_questionsInitialQualificationId_fkey" FOREIGN KEY ("questionsInitialQualificationId") REFERENCES "QuestionsInitialQualification"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QuestionsInitialQualification" ADD CONSTRAINT "QuestionsInitialQualification_providerCategoryId_fkey" FOREIGN KEY ("providerCategoryId") REFERENCES "ProviderCategory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
