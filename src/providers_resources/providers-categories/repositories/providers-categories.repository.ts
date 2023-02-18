@@ -5,9 +5,7 @@ import { ProvidersCategory } from '../entities/providers-category.entity';
 export abstract class ProvidersCategoryRepository {
   abstract create({
     name,
-    requiresInitialQualification,
-    requiredPeriodicEvaluation,
-    periodicCheck,
+    needsInitialQualification,
   }: CreateProvidersCategoryInput): Promise<ProvidersCategory>;
   abstract findAll(): Promise<ProvidersCategory[]>;
   abstract findOne(id: number): Promise<ProvidersCategory>;

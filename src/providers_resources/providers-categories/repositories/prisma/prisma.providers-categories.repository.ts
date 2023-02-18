@@ -12,16 +12,12 @@ export class PrismaProvidersCategoryRepository
   constructor(private prisma: PrismaService) {}
   async create({
     name,
-    requiresInitialQualification,
-    requiredPeriodicEvaluation,
-    periodicCheck,
+    needsInitialQualification,
   }: CreateProvidersCategoryInput): Promise<ProvidersCategory> {
     const newProvidersCategory = await this.prisma.providerCategory.create({
       data: {
         name,
-        requiresInitialQualification,
-        requiredPeriodicEvaluation,
-        periodicCheck,
+        needsInitialQualification,
       },
     });
     return newProvidersCategory;

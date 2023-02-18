@@ -19,10 +19,6 @@ import { S3Module } from 'nestjs-s3';
 import { UploadsModule } from './uploads/uploads.module';
 import { ProvidersModule } from './providers_resources/providers/providers.module';
 import { ProvidersCategoriesModule } from './providers_resources/providers-categories/providers-categories.module';
-import { InitialQualificationsModule } from './providers_resources/initial-qualifications/initial-qualifications.module';
-import { InitialQualificationQuestionsModule } from './providers_resources/initial-qualification-questions/initial-qualification-questions.module';
-import { InitialQualificationAnswersModule } from './providers_resources/initial-qualification-answers/initial-qualification-answers.module';
-import { InitialQualificationQuestionsTypesModule } from './providers_resources/initial-qualification-questions-types/initial-qualification-questions-types.module';
 
 @Module({
   imports: [
@@ -67,10 +63,6 @@ import { InitialQualificationQuestionsTypesModule } from './providers_resources/
     UploadsModule,
     ProvidersModule,
     ProvidersCategoriesModule,
-    InitialQualificationQuestionsModule,
-    InitialQualificationAnswersModule,
-    InitialQualificationsModule,
-    InitialQualificationQuestionsTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

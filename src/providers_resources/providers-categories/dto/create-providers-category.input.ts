@@ -18,14 +18,6 @@ export class CreateProvidersCategoryInput {
   name: string;
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
-  @IsBoolean({ message: 'Requires initial qualification must be a boolean' })
-  requiresInitialQualification?: boolean;
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  @IsBoolean({ message: 'Requires initial qualification must be a boolean' })
-  requiredPeriodicEvaluation?: boolean;
-  @Field(() => Boolean, { nullable: true })
-  @IsOptional()
-  @IsBoolean({ message: 'Requires initial qualification must be a boolean' })
-  periodicCheck?: boolean;
+  @IsBoolean({ message: 'Needs initial qualification must be a boolean' })
+  needsInitialQualification?: boolean;
 }
